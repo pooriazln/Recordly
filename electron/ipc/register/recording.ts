@@ -412,7 +412,11 @@ async function resolveExistingPath(...candidates: Array<string | null | undefine
 export function registerRecordingHandlers(
 	onRecordingStateChange?: (recording: boolean, sourceName: string) => void,
 ) {
-	let recordingPauseShortcut: ShortcutBinding = DEFAULT_SHORTCUTS.playPause;
+	let recordingPauseShortcuts: ShortcutBinding[] = [
+		DEFAULT_SHORTCUTS.playPause,
+		{ key: " " },
+		{ key: "pause" },
+	];
 	const pressedRecordingShortcutKeycodes = new Set<number>();
 
 	const loadRecordingPauseShortcut = () => {
@@ -422,29 +426,28 @@ export function registerRecordingHandlers(
 			};
 			const binding = parsed.playPause;
 			if (typeof binding?.key === "string" && binding.key.length > 0) {
-				recordingPauseShortcut = {
+				const savedBinding = {
 					key: binding.key,
 					ctrl: binding.ctrl === true,
 					shift: binding.shift === true,
 					alt: binding.alt === true,
 				};
+				recordingPauseShortcuts = [savedBinding, { key: " " }, { key: "pause" }];
 				return;
 			}
 		} catch {
 			// Use the editor's default Play / Pause binding when no settings exist.
 		}
 
-		recordingPauseShortcut = DEFAULT_SHORTCUTS.playPause;
+		recordingPauseShortcuts = [DEFAULT_SHORTCUTS.playPause, { key: " " }, { key: "pause" }];
 	};
 
 	const handleRecordingShortcutKeyDown = (event: HookKeyboardEvent) => {
 		const keycode = event.keycode;
 		if (
 			typeof keycode !== "number" ||
-			!matchesHookKeyboardShortcut(
-				event,
-				recordingPauseShortcut,
-				process.platform === "darwin",
+			!recordingPauseShortcuts.some((binding) =>
+				matchesHookKeyboardShortcut(event, binding, process.platform === "darwin"),
 			)
 		) {
 			return;

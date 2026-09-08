@@ -22,6 +22,16 @@ describe("global keyboard shortcut matching", () => {
 	it("normalizes the space key used by the default Play / Pause shortcut", () => {
 		expect(getHookKeyboardKey({ keycode: 0x0039 })).toBe(" ");
 		expect(matchesHookKeyboardShortcut({ keycode: 0x0039 }, { key: " " }, false)).toBe(true);
+		expect(matchesHookKeyboardShortcut({ keycode: 0x0039 }, { key: "space" }, false)).toBe(
+			true,
+		);
+	});
+
+	it("recognizes the physical Pause key for recording controls", () => {
+		expect(getHookKeyboardKey({ keycode: 0x0e45 })).toBe("pause");
+		expect(matchesHookKeyboardShortcut({ keycode: 0x0e45 }, { key: "pause" }, false)).toBe(
+			true,
+		);
 	});
 
 	it("honors platform-aware modifiers", () => {

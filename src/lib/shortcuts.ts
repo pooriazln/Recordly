@@ -45,9 +45,31 @@ export type ShortcutConflict =
 	| { type: "configurable"; action: ShortcutAction }
 	| { type: "fixed"; label: string };
 
+export function normalizeShortcutKey(key: string): string {
+	const normalized = key.toLowerCase();
+	return (
+		{
+			esc: "escape",
+			del: "delete",
+			space: " ",
+		}[normalized] ?? normalized
+	);
+}
+
+function normalizeKeyboardEventCode(code: string): string {
+	const normalized = code.toLowerCase();
+	if (normalized.startsWith("key") && normalized.length === 4) {
+		return normalized.slice(3);
+	}
+	if (normalized.startsWith("digit") && normalized.length === 6) {
+		return normalized.slice(5);
+	}
+	return normalizeShortcutKey(normalized);
+}
+
 export function bindingsEqual(a: ShortcutBinding, b: ShortcutBinding): boolean {
 	return (
-		a.key.toLowerCase() === b.key.toLowerCase() &&
+		normalizeShortcutKey(a.key) === normalizeShortcutKey(b.key) &&
 		!!a.ctrl === !!b.ctrl &&
 		!!a.shift === !!b.shift &&
 		!!a.alt === !!b.alt
@@ -95,7 +117,10 @@ export function matchesShortcut(
 	binding: ShortcutBinding,
 	isMacPlatform: boolean,
 ): boolean {
-	if (e.key.toLowerCase() !== binding.key.toLowerCase()) return false;
+	const expectedKey = normalizeShortcutKey(binding.key);
+	const eventKey = normalizeShortcutKey(e.key);
+	const eventCode = normalizeKeyboardEventCode(e.code);
+	if (eventKey !== expectedKey && eventCode !== expectedKey) return false;
 
 	const primaryMod = isMacPlatform ? e.metaKey : e.ctrlKey;
 	if (primaryMod !== !!binding.ctrl) return false;
@@ -121,7 +146,8 @@ export function formatBinding(binding: ShortcutBinding, isMac: boolean): string 
 	if (binding.ctrl) parts.push(isMac ? "⌘" : "Ctrl");
 	if (binding.shift) parts.push(isMac ? "⇧" : "Shift");
 	if (binding.alt) parts.push(isMac ? "⌥" : "Alt");
-	parts.push(KEY_LABELS[binding.key] ?? binding.key.toUpperCase());
+	const normalizedKey = normalizeShortcutKey(binding.key);
+	parts.push(KEY_LABELS[normalizedKey] ?? normalizedKey.toUpperCase());
 	return parts.join(" + ");
 }
 

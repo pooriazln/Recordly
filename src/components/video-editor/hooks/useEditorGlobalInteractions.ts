@@ -1,6 +1,6 @@
 import { type RefObject, useEffect } from "react";
 import type { useShortcuts } from "@/contexts/ShortcutsContext";
-import { matchesShortcut } from "@/lib/shortcuts";
+import { DEFAULT_SHORTCUTS, matchesShortcut } from "@/lib/shortcuts";
 import type { useTimelineState } from "../state/useTimelineState";
 import type { VideoPlaybackRef } from "../VideoPlayback";
 
@@ -48,7 +48,10 @@ export function useEditorGlobalInteractions({
 				}
 				return;
 			}
-			if (!matchesShortcut(event, shortcuts.playPause, isMac) || editable) return;
+			const matchesPlayPause =
+				matchesShortcut(event, shortcuts.playPause, isMac) ||
+				matchesShortcut(event, DEFAULT_SHORTCUTS.playPause, isMac);
+			if (!matchesPlayPause || editable) return;
 			event.preventDefault();
 			const playback = videoPlaybackRef.current;
 			if (!playback?.video) return;

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import type { ShortcutBinding } from "../../../src/lib/shortcuts";
+import { normalizeShortcutKey, type ShortcutBinding } from "../../../src/lib/shortcuts";
 import {
 	hasLoggedInteractionHookFailure,
 	interactionCaptureCleanup,
@@ -58,6 +58,7 @@ const UIOHOOK_KEY_TO_EVENT_KEY = new Map<number, string>([
 	[0x000f, "tab"],
 	[0x001c, "enter"],
 	[0x0039, " "],
+	[0x0e45, "pause"],
 	[0x0e49, "pageup"],
 	[0x0e51, "pagedown"],
 	[0x0e4f, "end"],
@@ -129,7 +130,7 @@ export function matchesHookKeyboardShortcut(
 	isMacPlatform: boolean,
 ): boolean {
 	const key = getHookKeyboardKey(event);
-	if (!key || key !== binding.key.toLowerCase()) return false;
+	if (!key || normalizeShortcutKey(key) !== normalizeShortcutKey(binding.key)) return false;
 
 	const primaryMod = isMacPlatform ? event.metaKey : event.ctrlKey;
 	if (!!primaryMod !== !!binding.ctrl) return false;

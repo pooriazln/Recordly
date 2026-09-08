@@ -68,9 +68,17 @@ export function useTimelineKeyboardShortcuts({
 				return;
 			}
 
-			if (!isTimelineFocusedRef.current) {
+			const interactiveTarget =
+				eventTarget instanceof HTMLElement &&
+				eventTarget.closest("button, a, [role='button'], [role='menuitem']");
+			if (interactiveTarget) {
 				return;
 			}
+
+			// Keyboard events only reach this window while the editor is active. Keep
+			// the ref for backwards compatibility with callers, but do not require a
+			// click on the timeline before editor shortcuts can work.
+			if (!isTimelineFocusedRef.current && !document.hasFocus()) return;
 
 			if (matchesShortcut(e, { key: "a", ctrl: true }, isMac)) {
 				if (!hasAnyZoomBlocks) {
