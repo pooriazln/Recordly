@@ -1,7 +1,7 @@
 {
 	"app": {
-		"name": "Aryosense Recorder",
-		"editorTitle": "Aryosense Recorder Editor",
+		"name": "Aryosense Motion",
+		"editorTitle": "Aryosense Motion Editor",
 		"subtitle": "Enregistrement et édition d’écran",
 		"language": "Langue",
 		"manageRecordings": "Ouvrir le dossier des enregistrements"

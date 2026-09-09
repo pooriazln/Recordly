@@ -938,7 +938,7 @@ export function createEditorWindow(): BrowserWindow {
 		resizable: true,
 		alwaysOnTop: false,
 		skipTaskbar: false,
-		title: "Aryosense Recorder",
+		title: "Aryosense Motion",
 		show: false,
 		backgroundColor: "#000000",
 		webPreferences: {

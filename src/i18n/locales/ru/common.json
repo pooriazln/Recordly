@@ -1,7 +1,7 @@
 {
 	"app": {
-		"name": "Aryosense Recorder",
-		"editorTitle": "Aryosense Recorder Editor",
+		"name": "Aryosense Motion",
+		"editorTitle": "Aryosense Motion Editor",
 		"subtitle": "Запись экрана и редактирование видео",
 		"language": "Язык",
 		"manageRecordings": "Открыть папку с записями"

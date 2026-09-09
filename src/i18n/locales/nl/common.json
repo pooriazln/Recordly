@@ -1,7 +1,7 @@
 {
 	"app": {
-		"name": "Aryosense Recorder",
-		"editorTitle": "Aryosense Recorder Editor",
+		"name": "Aryosense Motion",
+		"editorTitle": "Aryosense Motion Editor",
 		"subtitle": "Schermopname en bewerking",
 		"language": "Taal",
 		"manageRecordings": "Opnamemap openen"

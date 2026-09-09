@@ -55,8 +55,8 @@ export default function App() {
 	useEffect(() => {
 		document.title =
 			windowType === "editor"
-				? t("app.editorTitle", "Aryosense Recorder Editor")
-				: t("app.name", "Aryosense Recorder");
+				? t("app.editorTitle", "Aryosense Motion Editor")
+				: t("app.name", "Aryosense Motion");
 	}, [windowType, t]);
 
 	let content;
@@ -82,12 +82,12 @@ export default function App() {
 					<div className="flex items-center gap-4 rounded-2xl border border-foreground/10 bg-foreground/5 px-6 py-5 shadow-2xl shadow-black/30 backdrop-blur-xl">
 						<img
 							src={appIconSrc}
-							alt={t("app.name", "Aryosense Recorder")}
+							alt={t("app.name", "Aryosense Motion")}
 							className="h-12 w-12 rounded-xl"
 						/>
 						<div>
 							<h1 className="text-xl font-semibold tracking-tight">
-								{t("app.name", "Aryosense Recorder")}
+								{t("app.name", "Aryosense Motion")}
 							</h1>
 							<p className="text-sm text-foreground/65">
 								{t("app.subtitle", "Screen recording and editing")}

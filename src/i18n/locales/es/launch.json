@@ -51,8 +51,8 @@
 			"checkingTitle": "Buscando actualizaciones...",
 			"downloadingTitle": "Descargando actualización...",
 			"errorTitle": "La comprobación de actualizaciones falló. Haz clic para reintentar.",
-			"upToDateTitle": "Aryosense Recorder {{version}} está actualizado.",
-			"availableTitle": "Aryosense Recorder {{version}} está disponible.",
+			"upToDateTitle": "Aryosense Motion {{version}} está actualizado.",
+			"availableTitle": "Aryosense Motion {{version}} está disponible.",
 			"availableGenericTitle": "Hay una actualización disponible."
 		}
 	},
@@ -68,10 +68,10 @@
 		"share": "Compartir"
 	},
 	"permissions": {
-		"screenRecordingNeeded": "Aryosense Recorder necesita permiso de grabación de pantalla antes de comenzar. Se ha abierto Configuración del sistema. Después de habilitarlo, cierra y vuelve a abrir Aryosense Recorder.",
-		"screenRecordingMissing": "El permiso de grabación de pantalla aún falta. Se ha abierto Configuración del sistema nuevamente. Habilítalo, luego cierra y vuelve a abrir Aryosense Recorder antes de grabar.",
-		"accessibilityNeeded": "Aryosense Recorder también necesita permiso de accesibilidad para el seguimiento del cursor. Se ha abierto Configuración del sistema. Después de habilitarlo, cierra y vuelve a abrir Aryosense Recorder.",
-		"accessibilityMissing": "El permiso de accesibilidad aún falta. Se ha abierto Configuración del sistema nuevamente. Habilítalo, luego cierra y vuelve a abrir Aryosense Recorder antes de grabar.",
+		"screenRecordingNeeded": "Aryosense Motion necesita permiso de grabación de pantalla antes de comenzar. Se ha abierto Configuración del sistema. Después de habilitarlo, cierra y vuelve a abrir Aryosense Motion.",
+		"screenRecordingMissing": "El permiso de grabación de pantalla aún falta. Se ha abierto Configuración del sistema nuevamente. Habilítalo, luego cierra y vuelve a abrir Aryosense Motion antes de grabar.",
+		"accessibilityNeeded": "Aryosense Motion también necesita permiso de accesibilidad para el seguimiento del cursor. Se ha abierto Configuración del sistema. Después de habilitarlo, cierra y vuelve a abrir Aryosense Motion.",
+		"accessibilityMissing": "El permiso de accesibilidad aún falta. Se ha abierto Configuración del sistema nuevamente. Habilítalo, luego cierra y vuelve a abrir Aryosense Motion antes de grabar.",
 		"selectSource": "Por favor selecciona una fuente para grabar",
 		"systemAudioUnavailable": "El audio del sistema no está disponible para esta fuente. La grabación continuará sin audio del sistema.",
 		"microphoneDenied": "Se denegó el acceso al micrófono. La grabación continuará sin audio del micrófono.",
@@ -81,7 +81,7 @@
 	"updateToast": {
 		"availableTitle": "Actualización disponible",
 		"experimentalAvailableTitle": "Actualización experimental disponible",
-		"experimentalDescription": "Has activado las actualizaciones experimentales, así que puedes probar la actualización más reciente de Aryosense Recorder antes de que esté disponible para todos.",
+		"experimentalDescription": "Has activado las actualizaciones experimentales, así que puedes probar la actualización más reciente de Aryosense Motion antes de que esté disponible para todos.",
 		"downloadingTitle": "Descargando la actualización",
 		"readyTitle": "Listo para reiniciar",
 		"checkErrorTitle": "No se pudieron buscar actualizaciones",

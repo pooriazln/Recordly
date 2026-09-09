@@ -10,7 +10,7 @@
     "node_modules/uiohook-napi/**",
     "electron/native/bin/**"
   ],
-  "productName": "Aryosense Recorder",
+  "productName": "Aryosense Motion",
   "npmRebuild": true,
   "buildDependenciesFromSource": true,
   "compression": "normal",
@@ -119,6 +119,6 @@
     "allowToChangeInstallationDirectory": true,
     "createDesktopShortcut": true,
     "createStartMenuShortcut": true,
-    "shortcutName": "Recordly"
+    "shortcutName": "Aryosense Motion"
   }
 }

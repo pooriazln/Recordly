@@ -51,8 +51,8 @@
 			"checkingTitle": "Поиск обновлений...",
 			"downloadingTitle": "Загрузка обновления...",
 			"errorTitle": "Ошибка при проверке обновления. Нажмите, чтобы повторить",
-			"upToDateTitle": "У вас актуальная версия Aryosense Recorder {{version}}.",
-			"availableTitle": "Доступна новая версия Aryosense Recorder {{version}}.",
+			"upToDateTitle": "У вас актуальная версия Aryosense Motion {{version}}.",
+			"availableTitle": "Доступна новая версия Aryosense Motion {{version}}.",
 			"availableGenericTitle": "Доступно обновление."
 		}
 	},
@@ -68,10 +68,10 @@
 		"share": "Поделиться"
 	},
 	"permissions": {
-		"screenRecordingNeeded": "Aryosense Recorder нужно разрешение на запись экрана. Мы открыли настройки – включите доступ и перезапустите приложение.",
-		"screenRecordingMissing": "Доступа к записи экрана всё ещё нет. Мы снова открыли настройки. Разрешите доступ и перезапустите Aryosense Recorder.",
-		"accessibilityNeeded": "Разрешите Aryosense Recorder использовать универсальный доступ, чтобы отслеживать курсор. Мы открыли настройки – включите его и перезапустите приложение.",
-		"accessibilityMissing": "Разрешения для универсального доступа всё ещё нет. Включите его в настройках и перезапустите Aryosense Recorder.",
+		"screenRecordingNeeded": "Aryosense Motion нужно разрешение на запись экрана. Мы открыли настройки – включите доступ и перезапустите приложение.",
+		"screenRecordingMissing": "Доступа к записи экрана всё ещё нет. Мы снова открыли настройки. Разрешите доступ и перезапустите Aryosense Motion.",
+		"accessibilityNeeded": "Разрешите Aryosense Motion использовать универсальный доступ, чтобы отслеживать курсор. Мы открыли настройки – включите его и перезапустите приложение.",
+		"accessibilityMissing": "Разрешения для универсального доступа всё ещё нет. Включите его в настройках и перезапустите Aryosense Motion.",
 		"selectSource": "Выберите источник записи",
 		"systemAudioUnavailable": "Системные звуки недоступны для этого источника. Запись продолжится без их захвата.",
 		"microphoneDenied": "Нет доступа к микрофону. Запись продолжится без вашего голоса.",
@@ -81,7 +81,7 @@
 	"updateToast": {
 		"availableTitle": "Доступно обновление",
 		"experimentalAvailableTitle": "Доступно экспериментальное обновление",
-		"experimentalDescription": "Вы включили экспериментальные обновления, поэтому можете протестировать последнее обновление Aryosense Recorder до его широкого выпуска.",
+		"experimentalDescription": "Вы включили экспериментальные обновления, поэтому можете протестировать последнее обновление Aryosense Motion до его широкого выпуска.",
 		"downloadingTitle": "Загрузка обновления",
 		"readyTitle": "Готово к перезапуску",
 		"checkErrorTitle": "Не удалось проверить обновления",

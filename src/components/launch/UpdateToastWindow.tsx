@@ -153,7 +153,7 @@ export function UpdateToastWindow() {
 			<section
 				className={styles.card}
 				aria-live="polite"
-				aria-label="Aryosense Recorder update"
+				aria-label="Aryosense Motion update"
 			>
 				<div
 					className={`${styles.icon} ${payload.phase === "error" ? styles.iconError : ""}`}
