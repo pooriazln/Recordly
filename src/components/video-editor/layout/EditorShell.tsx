@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import { type ComponentProps, useCallback } from "react";
 import { EditorAnnouncementBanner } from "@/components/announcements/EditorAnnouncementBanner";
 import { Toaster } from "@/components/ui/sonner";
 import type { useI18n } from "@/contexts/I18nContext";
@@ -90,6 +90,22 @@ export function EditorShell(props: Props) {
 		handleAutoSuggestZoomsConsumed,
 	} = editing;
 	const { dialogActions, status: exportStatus, exportMessage } = exportController;
+	const handleRecordAgain = useCallback(async () => {
+		if (
+			hasUnsavedChanges &&
+			!window.confirm(
+				t(
+					"editor.recordAgain.confirm",
+					"Record again and discard the current editor changes?",
+				),
+			)
+		) {
+			return;
+		}
+
+		await window.electronAPI.clearCurrentVideoPath();
+		await window.electronAPI.returnToRecorder();
+	}, [hasUnsavedChanges, t]);
 	const editorDialogs = (
 		<EditorDialogs
 			t={t}
@@ -159,6 +175,7 @@ export function EditorShell(props: Props) {
 				handleOpenProjectBrowser={openActions.handleOpenProjectBrowser}
 				handleUndo={history.handleUndo}
 				handleRedo={history.handleRedo}
+				handleRecordAgain={handleRecordAgain}
 				handleProjectNameSubmit={saveActions.handleProjectNameSubmit}
 				closeProjectNameEditor={saveActions.closeProjectNameEditor}
 				presets={presets}

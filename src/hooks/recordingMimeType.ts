@@ -20,7 +20,16 @@ const WEBCAM_RECORDING_MIME_TYPE_PREFERENCES = [
 type MimeTypeSelectorOptions = {
 	isTypeSupported?: (type: string) => boolean;
 	canPlayType?: (type: string) => string;
+	preferPerformance?: boolean;
 };
+
+const PERFORMANCE_RECORDING_MIME_TYPE_PREFERENCES = [
+	"video/webm;codecs=h264",
+	"video/webm;codecs=vp8",
+	"video/webm;codecs=vp9",
+	"video/webm",
+	"video/webm;codecs=av1",
+] as const;
 
 function selectMimeTypeFromPreferences(
 	preferences: readonly string[],
@@ -39,7 +48,10 @@ function selectMimeTypeFromPreferences(
 }
 
 export function selectRecordingMimeType(options: MimeTypeSelectorOptions = {}): string | undefined {
-	return selectMimeTypeFromPreferences(RECORDING_MIME_TYPE_PREFERENCES, options);
+	const preferences = options.preferPerformance
+		? PERFORMANCE_RECORDING_MIME_TYPE_PREFERENCES
+		: RECORDING_MIME_TYPE_PREFERENCES;
+	return selectMimeTypeFromPreferences(preferences, options);
 }
 
 export function selectWebcamRecordingMimeType(

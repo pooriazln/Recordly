@@ -9,13 +9,17 @@ describe("getHudOverlayTaskbarOptions", () => {
 		});
 	});
 
-	it.each([
-		"darwin",
-		"linux",
-	] as const)("keeps the HUD non-focusable and out of the taskbar on %s", (platform) => {
-		expect(getHudOverlayTaskbarOptions(platform)).toEqual({
+	it("keeps the HUD non-focusable on macOS while staying out of the taskbar", () => {
+		expect(getHudOverlayTaskbarOptions("darwin")).toEqual({
 			skipTaskbar: true,
 			focusable: false,
+		});
+	});
+
+	it("keeps the Linux HUD focusable for native window dragging", () => {
+		expect(getHudOverlayTaskbarOptions("linux")).toEqual({
+			skipTaskbar: true,
+			focusable: true,
 		});
 	});
 });

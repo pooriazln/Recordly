@@ -100,7 +100,7 @@ export const DEFAULT_SHORTCUTS: ShortcutsConfig = {
 	addAnnotation: { key: "a" },
 	addKeyframe: { key: "f" },
 	deleteSelected: { key: "d", ctrl: true },
-	playPause: { key: " " },
+	playPause: { key: "p" },
 };
 
 export const SHORTCUT_LABELS: Record<ShortcutAction, string> = {

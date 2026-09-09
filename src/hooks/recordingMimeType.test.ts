@@ -36,6 +36,17 @@ describe("selectRecordingMimeType", () => {
 		expect(mimeType).toBe("video/webm;codecs=vp8");
 	});
 
+	it("prefers the faster VP8 path for performance-sensitive screen capture", () => {
+		const mimeType = selectRecordingMimeType({
+			preferPerformance: true,
+			isTypeSupported: (type) =>
+				["video/webm;codecs=vp9", "video/webm;codecs=vp8"].includes(type),
+			canPlayType: () => "probably",
+		});
+
+		expect(mimeType).toBe("video/webm;codecs=vp8");
+	});
+
 	it("falls back to the first supported codec when playback probing is unavailable", () => {
 		const mimeType = selectRecordingMimeType({
 			isTypeSupported: (type) =>

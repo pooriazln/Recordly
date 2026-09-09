@@ -77,6 +77,13 @@ ignoreBrokenConsolePipe(process.stderr);
 app.commandLine.appendSwitch("ignore-gpu-blocklist");
 app.commandLine.appendSwitch("enable-unsafe-webgpu");
 app.commandLine.appendSwitch("enable-gpu-rasterization");
+if (
+	process.platform === "linux" &&
+	process.env.XDG_SESSION_TYPE === "wayland" &&
+	!process.argv.some((argument) => argument === "--ozone-platform=x11")
+) {
+	app.commandLine.appendSwitch("enable-features", "GlobalShortcutsPortal");
+}
 
 app.on("web-contents-created", (_event, contents) => {
 	if (!shouldHardenWebContentsType(contents.getType())) {
@@ -970,6 +977,15 @@ app.whenReady().then(async () => {
 				app.quit();
 			}
 		}, 100);
+	});
+	ipcMain.handle("return-to-recorder", () => {
+		const editor = getExistingEditorWindow();
+		if (editor) {
+			closeEditorWindowToHud(editor);
+		} else {
+			createWindow();
+		}
+		return { success: true };
 	});
 	if (process.platform === "darwin" && app.dock) {
 		await app.dock.show();

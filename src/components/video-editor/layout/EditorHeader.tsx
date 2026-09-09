@@ -1,5 +1,6 @@
 import {
 	FolderOpen,
+	ArrowClockwise as RecordAgain,
 	ArrowClockwise as Redo2,
 	ArrowCounterClockwise as Undo2,
 } from "@phosphor-icons/react";
@@ -29,6 +30,7 @@ type Props = {
 	handleOpenProjectBrowser: () => void;
 	handleUndo: () => void;
 	handleRedo: () => void;
+	handleRecordAgain: () => void;
 	handleProjectNameSubmit: (event?: FormEvent<HTMLFormElement>) => void;
 	closeProjectNameEditor: () => void;
 	presets: ReturnType<typeof useVideoEditorPresets>;
@@ -63,6 +65,7 @@ export function EditorHeader(props: Props) {
 		handleOpenProjectBrowser,
 		handleUndo,
 		handleRedo,
+		handleRecordAgain,
 		handleProjectNameSubmit,
 		closeProjectNameEditor,
 		presets,
@@ -135,6 +138,17 @@ export function EditorHeader(props: Props) {
 					aria-label={t("common.actions.redo", "Redo")}
 				>
 					<Redo2 className="h-4 w-4" />
+				</Button>
+				<Button
+					type="button"
+					variant="ghost"
+					onClick={handleRecordAgain}
+					className="ml-1 inline-flex h-8 items-center gap-1.5 rounded-[5px] border border-[#2563EB]/30 bg-[#2563EB]/10 px-2 text-xs font-medium text-[#2563EB] transition-colors hover:bg-[#2563EB]/20"
+					title={t("editor.recordAgain.title", "Record again")}
+					aria-label={t("editor.recordAgain.title", "Record again")}
+				>
+					<RecordAgain className="h-3.5 w-3.5" />
+					<span>{t("editor.recordAgain.label", "Record again")}</span>
 				</Button>
 			</div>
 

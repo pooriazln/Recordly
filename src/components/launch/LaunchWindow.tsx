@@ -472,7 +472,9 @@ function LaunchWindowContent() {
 								ref={hudBarRef}
 								layout={shouldAnimateHudLayout}
 								transition={hudStateTransition}
-								className={`${styles.bar} launch-theme mb-2 pointer-events-auto`}
+								className={`${styles.bar} launch-theme mb-2 pointer-events-auto ${
+									useNativeHudBarDrag ? styles.electronDrag : ""
+								}`}
 								onMouseEnter={handleHudMouseEnter}
 								onMouseLeave={handleHudMouseLeave}
 							>
@@ -491,7 +493,11 @@ function LaunchWindowContent() {
 									<RxDragHandleDots2 size={14} className="text-[#6b6b78]" />
 								</div>
 
-								<div className={styles.barStateViewport}>
+								<div
+									className={`${styles.barStateViewport} ${
+										useNativeHudBarDrag ? styles.electronNoDrag : ""
+									}`}
+								>
 									<AnimatePresence initial={false} mode="wait">
 										<motion.div
 											key={hudMode}

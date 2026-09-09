@@ -19,12 +19,9 @@ import {
 } from "./interaction";
 
 describe("global keyboard shortcut matching", () => {
-	it("normalizes the space key used by the default Play / Pause shortcut", () => {
-		expect(getHookKeyboardKey({ keycode: 0x0039 })).toBe(" ");
-		expect(matchesHookKeyboardShortcut({ keycode: 0x0039 }, { key: " " }, false)).toBe(true);
-		expect(matchesHookKeyboardShortcut({ keycode: 0x0039 }, { key: "space" }, false)).toBe(
-			true,
-		);
+	it("matches the letter used by the default Play / Pause shortcut", () => {
+		expect(getHookKeyboardKey({ keycode: 0x0019 })).toBe("p");
+		expect(matchesHookKeyboardShortcut({ keycode: 0x0019 }, { key: "p" }, false)).toBe(true);
 	});
 
 	it("recognizes the physical Pause key for recording controls", () => {

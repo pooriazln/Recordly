@@ -9,12 +9,17 @@ import {
 	BrowserWindow,
 	desktopCapturer,
 	dialog,
+	globalShortcut,
 	ipcMain,
 	shell,
 	systemPreferences,
 } from "electron";
 import { getHudCaptureExcludedProcessIds } from "../../../src/lib/hudCaptureProtection";
-import { DEFAULT_SHORTCUTS, type ShortcutBinding } from "../../../src/lib/shortcuts";
+import {
+	DEFAULT_SHORTCUTS,
+	normalizeShortcutKey,
+	type ShortcutBinding,
+} from "../../../src/lib/shortcuts";
 import { showCursor } from "../../cursorHider";
 import {
 	getHudOverlayCaptureProtectionEnabled,
@@ -409,15 +414,76 @@ async function resolveExistingPath(...candidates: Array<string | null | undefine
 	return null;
 }
 
+const ELECTRON_SHORTCUT_KEY_NAMES: Record<string, string> = {
+	" ": "Space",
+	backspace: "Backspace",
+	delete: "Delete",
+	enter: "Enter",
+	escape: "Escape",
+	pause: "Pause",
+	tab: "Tab",
+	arrowdown: "Down",
+	arrowleft: "Left",
+	arrowright: "Right",
+	arrowup: "Up",
+};
+
+export function toElectronGlobalShortcut(binding: ShortcutBinding): string | null {
+	const normalizedKey = normalizeShortcutKey(binding.key);
+	const key =
+		ELECTRON_SHORTCUT_KEY_NAMES[normalizedKey] ??
+		(/^[a-z0-9]$/.test(normalizedKey) ? normalizedKey.toUpperCase() : null);
+	if (!key) return null;
+
+	const modifiers: string[] = [];
+	if (binding.ctrl) modifiers.push("CommandOrControl");
+	if (binding.alt) modifiers.push("Alt");
+	if (binding.shift) modifiers.push("Shift");
+	return [...modifiers, key].join("+");
+}
+
 export function registerRecordingHandlers(
 	onRecordingStateChange?: (recording: boolean, sourceName: string) => void,
 ) {
 	let recordingPauseShortcuts: ShortcutBinding[] = [
 		DEFAULT_SHORTCUTS.playPause,
-		{ key: " " },
 		{ key: "pause" },
 	];
+	let registeredRecordingGlobalShortcut: string | null = null;
 	const pressedRecordingShortcutKeycodes = new Set<number>();
+
+	const emitRecordingShortcutToggle = () => {
+		BrowserWindow.getAllWindows().forEach((window) => {
+			if (!window.isDestroyed()) {
+				window.webContents.send("recording-toggle-pause");
+			}
+		});
+	};
+
+	const unregisterRecordingGlobalShortcut = () => {
+		if (!registeredRecordingGlobalShortcut) return;
+		globalShortcut.unregister(registeredRecordingGlobalShortcut);
+		registeredRecordingGlobalShortcut = null;
+	};
+
+	const registerRecordingGlobalShortcut = () => {
+		unregisterRecordingGlobalShortcut();
+		const accelerator = toElectronGlobalShortcut(recordingPauseShortcuts[0]);
+		if (!accelerator) return false;
+
+		try {
+			if (!globalShortcut.register(accelerator, emitRecordingShortcutToggle)) {
+				console.warn(`[recording] Global shortcut registration failed: ${accelerator}`);
+				return false;
+			}
+			registeredRecordingGlobalShortcut = accelerator;
+			console.log(`[recording] Global shortcut registered: ${accelerator}`);
+			return true;
+		} catch (error) {
+			console.warn(`[recording] Global shortcut registration failed: ${accelerator}`, error);
+			return false;
+		}
+	};
 
 	const loadRecordingPauseShortcut = () => {
 		try {
@@ -432,14 +498,18 @@ export function registerRecordingHandlers(
 					shift: binding.shift === true,
 					alt: binding.alt === true,
 				};
-				recordingPauseShortcuts = [savedBinding, { key: " " }, { key: "pause" }];
+				recordingPauseShortcuts = [
+					savedBinding,
+					DEFAULT_SHORTCUTS.playPause,
+					{ key: "pause" },
+				];
 				return;
 			}
 		} catch {
 			// Use the editor's default Play / Pause binding when no settings exist.
 		}
 
-		recordingPauseShortcuts = [DEFAULT_SHORTCUTS.playPause, { key: " " }, { key: "pause" }];
+		recordingPauseShortcuts = [DEFAULT_SHORTCUTS.playPause, { key: "pause" }];
 	};
 
 	const handleRecordingShortcutKeyDown = (event: HookKeyboardEvent) => {
@@ -457,11 +527,7 @@ export function registerRecordingHandlers(
 		if (pressedRecordingShortcutKeycodes.has(keycode)) return;
 		pressedRecordingShortcutKeycodes.add(keycode);
 
-		BrowserWindow.getAllWindows().forEach((window) => {
-			if (!window.isDestroyed()) {
-				window.webContents.send("recording-toggle-pause");
-			}
-		});
+		emitRecordingShortcutToggle();
 	};
 
 	const handleRecordingShortcutKeyUp = (event: HookKeyboardEvent) => {
@@ -1932,6 +1998,7 @@ export function registerRecordingHandlers(
 	ipcMain.handle("set-recording-state", (_, recording: boolean) => {
 		if (recording) {
 			loadRecordingPauseShortcut();
+			const globalShortcutRegistered = registerRecordingGlobalShortcut();
 			pressedRecordingShortcutKeycodes.clear();
 			stopCursorCapture();
 			stopInteractionCapture();
@@ -1946,10 +2013,14 @@ export function registerRecordingHandlers(
 			setLastLeftClick(null);
 			sampleCursorPoint();
 			startCursorSampling();
-			void startInteractionCapture({
-				onKeyDown: handleRecordingShortcutKeyDown,
-				onKeyUp: handleRecordingShortcutKeyUp,
-			});
+			void startInteractionCapture(
+				globalShortcutRegistered
+					? undefined
+					: {
+							onKeyDown: handleRecordingShortcutKeyDown,
+							onKeyUp: handleRecordingShortcutKeyUp,
+						},
+			);
 		} else {
 			pressedRecordingShortcutKeycodes.clear();
 			setIsCursorCaptureActive(false);
@@ -2045,4 +2116,7 @@ export function registerRecordingHandlers(
 			}
 		},
 	);
+
+	loadRecordingPauseShortcut();
+	registerRecordingGlobalShortcut();
 }

@@ -25,6 +25,7 @@ const DEFAULT_WIDTH = 1920;
 const DEFAULT_HEIGHT = 1080;
 const CODEC_ALIGNMENT = 2;
 const RECORDER_TIMESLICE_MS = 250;
+const VIDEO_RECORDER_TIMESLICE_MS = 1000;
 const BITS_PER_MEGABIT = 1_000_000;
 const MIN_FRAME_RATE = 30;
 const CHROME_MEDIA_SOURCE = "desktop";
@@ -587,18 +588,22 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 		return false;
 	}, []);
 
-	const selectMimeType = useCallback(() => {
-		return selectRecordingMimeType();
+	const selectMimeType = useCallback((preferPerformance = false) => {
+		return selectRecordingMimeType({ preferPerformance });
 	}, []);
 
 	const selectWebcamMimeType = useCallback(() => {
 		return selectWebcamRecordingMimeType();
 	}, []);
 
-	const computeBitrate = (width: number, height: number) => {
+	const computeBitrate = (width: number, height: number, preferPerformance = false) => {
 		const pixels = width * height;
 		const highFrameRateBoost =
-			TARGET_FRAME_RATE >= HIGH_FRAME_RATE_THRESHOLD ? HIGH_FRAME_RATE_BOOST : 1;
+			TARGET_FRAME_RATE >= HIGH_FRAME_RATE_THRESHOLD
+				? preferPerformance
+					? 1.25
+					: HIGH_FRAME_RATE_BOOST
+				: 1;
 
 		if (pixels >= FOUR_K_PIXELS) {
 			return Math.round(BITRATE_4K * highFrameRateBoost);
@@ -1121,7 +1126,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 		const recorder = webcamRecorder.current;
 		if (recorder && recorder.state === "inactive") {
 			webcamStartTime.current = Date.now();
-			recorder.start(RECORDER_TIMESLICE_MS);
+			recorder.start(VIDEO_RECORDER_TIMESLICE_MS);
 		}
 	}, []);
 
@@ -1469,11 +1474,10 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 				}
 			}
 			pendingWebcamPathPromise.current = stopWebcamRecorder();
-			try {
-				recorder.requestData();
-			} catch (error) {
-				console.warn("Failed to flush recorder before stopping:", error);
-			}
+			// MediaRecorder.stop() emits the final dataavailable event itself. A
+			// requestData() immediately before stop can create duplicate WebM
+			// timestamps in Chromium, which makes otherwise 60 FPS captures play
+			// with visible cadence jumps.
 			recorder.stop();
 			setRecording(false);
 			setFinalizing(true);
@@ -1688,8 +1692,13 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 				return;
 			}
 
-			const { selectedSource, useNativeMacScreenCapture, useNativeWindowsCapture, micLabel } =
-				preparedStart;
+			const {
+				platform,
+				selectedSource,
+				useNativeMacScreenCapture,
+				useNativeWindowsCapture,
+				micLabel,
+			} = preparedStart;
 			const useNativeCapture = useNativeMacScreenCapture || useNativeWindowsCapture;
 			const shouldWarmStartNativeCapture = useNativeCapture && countdownDelay > 0;
 			if (countdownDelay > 0 && !shouldWarmStartNativeCapture) {
@@ -2110,6 +2119,12 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			}
 
 			try {
+				videoTrack.contentHint = "motion";
+			} catch {
+				// Older capture backends may not expose contentHint.
+			}
+
+			try {
 				await videoTrack.applyConstraints({
 					frameRate: { ideal: TARGET_FRAME_RATE, max: TARGET_FRAME_RATE },
 					width: { ideal: TARGET_WIDTH, max: TARGET_WIDTH },
@@ -2131,8 +2146,9 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			width = Math.floor(width / CODEC_ALIGNMENT) * CODEC_ALIGNMENT;
 			height = Math.floor(height / CODEC_ALIGNMENT) * CODEC_ALIGNMENT;
 
-			const videoBitsPerSecond = computeBitrate(width, height);
-			const mimeType = selectMimeType();
+			const preferPerformance = platform === "linux";
+			const videoBitsPerSecond = computeBitrate(width, height, preferPerformance);
+			const mimeType = selectMimeType(preferPerformance);
 
 			console.log(
 				`Recording at ${width}x${height} @ ${frameRate ?? TARGET_FRAME_RATE}fps using ${mimeType ?? "browser default"} / ${Math.round(
@@ -2246,7 +2262,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			resetRecordingClock(mainStartedAt);
 			webcamTimeOffsetMs.current =
 				webcamStartTime.current === null ? 0 : webcamStartTime.current - mainStartedAt;
-			recorder.start(RECORDER_TIMESLICE_MS);
+			recorder.start(VIDEO_RECORDER_TIMESLICE_MS);
 			setRecording(true);
 			try {
 				await window.electronAPI?.setRecordingState(true);
