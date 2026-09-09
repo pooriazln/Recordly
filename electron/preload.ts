@@ -736,6 +736,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
 		options?: {
 			preserveProjectPath?: boolean;
 			hideOverlayCursorByDefault?: boolean;
+			disableAutoSuggestedZoomsByDefault?: boolean;
 		},
 	) => {
 		return ipcRenderer.invoke("set-current-video-path", path, options);
@@ -746,6 +747,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
 			webcamPath?: string | null;
 			timeOffsetMs?: number;
 			hideOverlayCursorByDefault?: boolean;
+			disableAutoSuggestedZoomsByDefault?: boolean;
 		},
 		options?: { preserveProjectPath?: boolean },
 	) => {

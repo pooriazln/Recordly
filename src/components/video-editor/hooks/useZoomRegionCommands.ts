@@ -75,8 +75,9 @@ export function useZoomRegionCommands({
 				endMs: Math.round(span.end),
 				depth,
 				focus: clampFocusToDepth({ cx: 0.5, cy: 0.5 }, depth),
-				// Mode describes camera tracking behavior, not how the region was created.
-				mode: "auto",
+				// A manually placed zoom must stay on its chosen target. Following the
+				// pointer here made it begin at center, then pan after the fact.
+				mode: "manual",
 			};
 			markFreshRecordingSuggestion();
 			setZoomRegions((current) => [...current, newRegion]);
@@ -102,7 +103,9 @@ export function useZoomRegionCommands({
 				endMs: Math.round(span.end),
 				depth: DEFAULT_AUTO_ZOOM_DEPTH,
 				focus: clampFocusToDepth(focus, DEFAULT_AUTO_ZOOM_DEPTH),
-				mode: "auto",
+				// Suggestions are centred on a click. Keep that target fixed rather
+				// than chasing post-click cursor movement after the zoom has landed.
+				mode: "manual",
 			};
 			markFreshRecordingSuggestion();
 			setZoomRegions((current) => [...current, newRegion]);

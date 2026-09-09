@@ -51,6 +51,7 @@ export type BrowserCaptureCursorPolicy = {
 	streamCursor: BrowserCaptureCursorMode;
 	hideOsCursorBeforeRecording: boolean;
 	hideEditorOverlayCursorByDefault: boolean;
+	disableAutoSuggestedZoomsByDefault: boolean;
 };
 const DEFAULT_BROWSER_MICROPHONE_PROFILE: BrowserMicrophoneProfile = "processed";
 const BROWSER_MICROPHONE_PROFILES = new Set<BrowserMicrophoneProfile>([
@@ -191,9 +192,25 @@ export function normalizeBrowserMicrophoneProfile(value?: string | null): Browse
 
 export function resolveBrowserCaptureCursorPolicy({
 	nativeWindowsCaptureStartFailed = false,
+	linuxPortalCaptureMayEmbedCursor = false,
 }: {
 	nativeWindowsCaptureStartFailed?: boolean;
+	linuxPortalCaptureMayEmbedCursor?: boolean;
 } = {}): BrowserCaptureCursorPolicy {
+	if (linuxPortalCaptureMayEmbedCursor) {
+		// Wayland's xdg-desktop-portal embeds the physical cursor in this
+		// Electron capture stream, even when Chromium is asked for "never".
+		// Rendering a second cursor over it is visibly broken, so keep the one
+		// the portal captured and do not create cursor-driven zooms from these
+		// mixed-coordinate recordings.
+		return {
+			streamCursor: "always",
+			hideOsCursorBeforeRecording: false,
+			hideEditorOverlayCursorByDefault: true,
+			disableAutoSuggestedZoomsByDefault: true,
+		};
+	}
+
 	if (nativeWindowsCaptureStartFailed) {
 		// If WGC already failed, avoid the telemetry overlay path that can lag on
 		// constrained Windows systems; keep the browser-captured cursor instead.
@@ -201,6 +218,7 @@ export function resolveBrowserCaptureCursorPolicy({
 			streamCursor: "always",
 			hideOsCursorBeforeRecording: false,
 			hideEditorOverlayCursorByDefault: true,
+			disableAutoSuggestedZoomsByDefault: false,
 		};
 	}
 
@@ -210,6 +228,7 @@ export function resolveBrowserCaptureCursorPolicy({
 		// excludes it and the editor draws one high-fidelity cursor from telemetry.
 		hideOsCursorBeforeRecording: false,
 		hideEditorOverlayCursorByDefault: false,
+		disableAutoSuggestedZoomsByDefault: false,
 	};
 }
 
@@ -436,6 +455,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 	);
 	const requestedBrowserMicrophoneProfile = useRef<string | null>(null);
 	const hideEditorOverlayCursorByDefault = useRef(false);
+	const disableAutoSuggestedZoomsByDefault = useRef(false);
 
 	const notifyRecordingFinalizationFailure = useCallback(async (message: string) => {
 		setFinalizing(false);
@@ -748,6 +768,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			const start = performance.now();
 			console.log("[PERF:RENDERER] Finalize Session & Switch to Editor: STARTED");
 			const shouldHideOverlayCursor = hideEditorOverlayCursorByDefault.current;
+			const shouldDisableAutoSuggestedZooms = disableAutoSuggestedZoomsByDefault.current;
 			try {
 				if (webcamPath) {
 					await window.electronAPI.setCurrentRecordingSession({
@@ -755,10 +776,12 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 						webcamPath,
 						timeOffsetMs: webcamTimeOffsetMs.current,
 						hideOverlayCursorByDefault: shouldHideOverlayCursor,
+						disableAutoSuggestedZoomsByDefault: shouldDisableAutoSuggestedZooms,
 					});
 				} else {
 					await window.electronAPI.setCurrentVideoPath(videoPath, {
 						hideOverlayCursorByDefault: shouldHideOverlayCursor,
+						disableAutoSuggestedZoomsByDefault: shouldDisableAutoSuggestedZooms,
 					});
 				}
 			} catch (error) {
@@ -767,6 +790,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 				try {
 					await window.electronAPI.setCurrentVideoPath(videoPath, {
 						hideOverlayCursorByDefault: shouldHideOverlayCursor,
+						disableAutoSuggestedZoomsByDefault: shouldDisableAutoSuggestedZooms,
 					});
 				} catch (fallbackError) {
 					console.error("Failed to persist fallback video path:", fallbackError);
@@ -1135,6 +1159,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 	const prepareRecordingStart = useCallback(async () => {
 		const platform = await window.electronAPI.getPlatform();
 		hideEditorOverlayCursorByDefault.current = false;
+		disableAutoSuggestedZoomsByDefault.current = false;
 		const existingSource = await window.electronAPI.getSelectedSource();
 		const selectedSource =
 			existingSource ?? (platform === "linux" ? LINUX_PORTAL_SOURCE : null);
@@ -1389,6 +1414,8 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 										timeOffsetMs: webcamTimeOffsetMs.current,
 										hideOverlayCursorByDefault:
 											hideEditorOverlayCursorByDefault.current,
+										disableAutoSuggestedZoomsByDefault:
+											disableAutoSuggestedZoomsByDefault.current,
 									});
 								} catch (sessionError) {
 									console.error(
@@ -1442,6 +1469,8 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 							webcamPath,
 							timeOffsetMs: webcamTimeOffsetMs.current,
 							hideOverlayCursorByDefault: hideEditorOverlayCursorByDefault.current,
+							disableAutoSuggestedZoomsByDefault:
+								disableAutoSuggestedZoomsByDefault.current,
 						});
 
 						console.log(
@@ -1932,11 +1961,15 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 				resetRecordingClock(recordingSessionTimestamp.current);
 			}
 
+			const useLinuxPortal = selectedSource.id === "screen:linux-portal";
 			const browserCursorPolicy = resolveBrowserCaptureCursorPolicy({
 				nativeWindowsCaptureStartFailed,
+				linuxPortalCaptureMayEmbedCursor: useLinuxPortal,
 			});
 			hideEditorOverlayCursorByDefault.current =
 				browserCursorPolicy.hideEditorOverlayCursorByDefault;
+			disableAutoSuggestedZoomsByDefault.current =
+				browserCursorPolicy.disableAutoSuggestedZoomsByDefault;
 
 			const wantsAudioCapture = microphoneEnabled || systemAudioEnabled;
 			const browserCaptureSource = await resolveBrowserCaptureSource(selectedSource);
@@ -1967,7 +2000,6 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			let videoTrack: MediaStreamTrack | undefined;
 			let systemAudioIncluded = false;
 			const mediaDevices = navigator.mediaDevices as DesktopCaptureMediaDevices;
-			const useLinuxPortal = selectedSource.id === "screen:linux-portal";
 			const browserScreenVideoConstraints = {
 				mandatory: {
 					chromeMediaSource: CHROME_MEDIA_SOURCE,
@@ -2241,6 +2273,8 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 										timeOffsetMs: webcamTimeOffsetMs.current,
 										hideOverlayCursorByDefault:
 											hideEditorOverlayCursorByDefault.current,
+										disableAutoSuggestedZoomsByDefault:
+											disableAutoSuggestedZoomsByDefault.current,
 									});
 								}
 							} finally {

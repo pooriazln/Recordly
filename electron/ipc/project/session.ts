@@ -26,16 +26,21 @@ export async function persistRecordingSessionManifest(
 	const normalizedWebcamPath = normalizeVideoSourcePath(session.webcamPath ?? null);
 	const manifestPath = getRecordingSessionManifestPath(normalizedVideoPath);
 
-	if (!normalizedWebcamPath) {
+	const hasPresentationOverrides =
+		Boolean(session.hideOverlayCursorByDefault) ||
+		Boolean(session.disableAutoSuggestedZoomsByDefault);
+	if (!normalizedWebcamPath && !hasPresentationOverrides) {
 		await fs.rm(manifestPath, { force: true });
 		return;
 	}
 
 	const manifest: RecordingSessionManifest = {
-		version: 2,
+		version: hasPresentationOverrides ? 3 : 2,
 		videoFileName: path.basename(normalizedVideoPath),
-		webcamFileName: path.basename(normalizedWebcamPath),
+		webcamFileName: normalizedWebcamPath ? path.basename(normalizedWebcamPath) : null,
 		timeOffsetMs: normalizeRecordingTimeOffsetMs(session.timeOffsetMs),
+		hideOverlayCursorByDefault: Boolean(session.hideOverlayCursorByDefault),
+		disableAutoSuggestedZoomsByDefault: Boolean(session.disableAutoSuggestedZoomsByDefault),
 	};
 
 	await fs.writeFile(manifestPath, JSON.stringify(manifest, null, 2), "utf-8");
@@ -54,7 +59,7 @@ export async function resolveRecordingSessionManifest(
 	try {
 		const content = await fs.readFile(manifestPath, "utf-8");
 		const parsed = parseJsonWithByteOrderMark<Partial<RecordingSessionManifest>>(content);
-		if (parsed.version !== 1 && parsed.version !== 2) {
+		if (parsed.version !== 1 && parsed.version !== 2 && parsed.version !== 3) {
 			return null;
 		}
 
@@ -67,6 +72,10 @@ export async function resolveRecordingSessionManifest(
 				videoPath: normalizedVideoPath,
 				webcamPath: null,
 				timeOffsetMs: normalizeRecordingTimeOffsetMs(parsed.timeOffsetMs),
+				hideOverlayCursorByDefault: Boolean(parsed.hideOverlayCursorByDefault),
+				disableAutoSuggestedZoomsByDefault: Boolean(
+					parsed.disableAutoSuggestedZoomsByDefault,
+				),
 			};
 		}
 
@@ -80,6 +89,8 @@ export async function resolveRecordingSessionManifest(
 			videoPath: normalizedVideoPath,
 			webcamPath: webcamExists ? webcamPath : null,
 			timeOffsetMs: normalizeRecordingTimeOffsetMs(parsed.timeOffsetMs),
+			hideOverlayCursorByDefault: Boolean(parsed.hideOverlayCursorByDefault),
+			disableAutoSuggestedZoomsByDefault: Boolean(parsed.disableAutoSuggestedZoomsByDefault),
 		};
 	} catch {
 		return null;

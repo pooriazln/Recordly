@@ -2,7 +2,6 @@ import {
 	ArrowClockwiseIcon,
 	CaretUpIcon,
 	DotsThreeVerticalIcon,
-	GearSixIcon,
 	MicrophoneIcon,
 	MicrophoneSlashIcon,
 	MinusIcon,
@@ -33,7 +32,6 @@ import { useWebcamPreviewOverlay } from "./hooks/useWebcamPreviewOverlay";
 import styles from "./LaunchWindow.module.css";
 import { MarqueeText } from "./MarqueeText";
 import { CountdownPopover } from "./popovers/CountdownPopover";
-import { EditorSettingsPopover } from "./popovers/EditorSettingsPopover";
 import {
 	LaunchPopoverCoordinatorProvider,
 	useLaunchPopoverCoordinator,
@@ -381,20 +379,6 @@ function LaunchWindowContent() {
 					trigger={<div className="absolute inset-0 pointer-events-none opacity-0" />}
 				/>
 			</div>
-
-			<EditorSettingsPopover
-				trigger={
-					<Button
-						variant="ghost"
-						size="icon"
-						iconSize="lg"
-						title={t("recording.settings", "Settings")}
-						aria-label={t("recording.settings", "Settings")}
-					>
-						<GearSixIcon size={18} />
-					</Button>
-				}
-			/>
 
 			<MorePopover
 				supportsHudCaptureProtection={hudCaptureProtectionSupported}

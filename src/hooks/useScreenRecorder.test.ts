@@ -146,6 +146,7 @@ describe("resolveBrowserCaptureCursorPolicy", () => {
 			streamCursor: "never",
 			hideOsCursorBeforeRecording: false,
 			hideEditorOverlayCursorByDefault: false,
+			disableAutoSuggestedZoomsByDefault: false,
 		});
 	});
 
@@ -156,6 +157,18 @@ describe("resolveBrowserCaptureCursorPolicy", () => {
 			streamCursor: "always",
 			hideOsCursorBeforeRecording: false,
 			hideEditorOverlayCursorByDefault: true,
+			disableAutoSuggestedZoomsByDefault: false,
+		});
+	});
+
+	it("uses the portal cursor without an overlay on Wayland", () => {
+		expect(
+			resolveBrowserCaptureCursorPolicy({ linuxPortalCaptureMayEmbedCursor: true }),
+		).toEqual({
+			streamCursor: "always",
+			hideOsCursorBeforeRecording: false,
+			hideEditorOverlayCursorByDefault: true,
+			disableAutoSuggestedZoomsByDefault: true,
 		});
 	});
 });

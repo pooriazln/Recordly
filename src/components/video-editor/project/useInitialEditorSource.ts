@@ -10,6 +10,7 @@ import { DEFAULT_WEBCAM_TIME_OFFSET_MS } from "../types";
 type SessionPresentation = {
 	hideOverlayCursorByDefault?: boolean;
 	nativeCaptureUnavailable?: boolean;
+	disableAutoSuggestedZoomsByDefault?: boolean;
 };
 
 type Input = {
@@ -164,7 +165,10 @@ export function useInitialEditorSource({
 					project.setLastSavedSnapshot(null);
 					resetSourceScopedEditorState();
 					pendingFreshRecordingAutoZoomPathRef.current =
-						appearance.autoApplyFreshRecordingAutoZooms ? sourceUrl : null;
+						appearance.autoApplyFreshRecordingAutoZooms &&
+						!sessionResult.session?.disableAutoSuggestedZoomsByDefault
+							? sourceUrl
+							: null;
 					applySessionPresentation(sessionResult.session);
 					appearance.setWebcam((previous) => ({
 						...previous,

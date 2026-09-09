@@ -627,7 +627,11 @@ export function registerProjectHandlers() {
 		async (
 			_,
 			path: string,
-			options?: { preserveProjectPath?: boolean; hideOverlayCursorByDefault?: boolean },
+			options?: {
+				preserveProjectPath?: boolean;
+				hideOverlayCursorByDefault?: boolean;
+				disableAutoSuggestedZoomsByDefault?: boolean;
+			},
 		) => {
 			setCurrentVideoPath(normalizeVideoSourcePath(path) ?? path);
 			approveUserPath(currentVideoPath);
@@ -642,6 +646,9 @@ export function registerProjectHandlers() {
 				hideOverlayCursorByDefault:
 					normalizeBoolean(options?.hideOverlayCursorByDefault) ||
 					normalizeBoolean(resolvedSession.hideOverlayCursorByDefault),
+				disableAutoSuggestedZoomsByDefault:
+					normalizeBoolean(options?.disableAutoSuggestedZoomsByDefault) ||
+					normalizeBoolean(resolvedSession.disableAutoSuggestedZoomsByDefault),
 			};
 
 			setCurrentRecordingSession(nextSession);
@@ -650,7 +657,11 @@ export function registerProjectHandlers() {
 				resolvedSession.webcamPath,
 			]);
 
-			if (nextSession.webcamPath) {
+			if (
+				nextSession.webcamPath ||
+				nextSession.hideOverlayCursorByDefault ||
+				nextSession.disableAutoSuggestedZoomsByDefault
+			) {
 				await persistRecordingSessionManifest(nextSession);
 			}
 
@@ -677,6 +688,7 @@ export function registerProjectHandlers() {
 				webcamPath?: string | null;
 				timeOffsetMs?: number;
 				hideOverlayCursorByDefault?: boolean;
+				disableAutoSuggestedZoomsByDefault?: boolean;
 			},
 			options?: { preserveProjectPath?: boolean },
 		) => {
@@ -688,6 +700,9 @@ export function registerProjectHandlers() {
 				webcamPath: normalizeVideoSourcePath(session.webcamPath ?? null),
 				timeOffsetMs: normalizeRecordingTimeOffsetMs(session.timeOffsetMs),
 				hideOverlayCursorByDefault: normalizeBoolean(session.hideOverlayCursorByDefault),
+				disableAutoSuggestedZoomsByDefault: normalizeBoolean(
+					session.disableAutoSuggestedZoomsByDefault,
+				),
 			});
 			await rememberApprovedLocalReadPath(currentRecordingSession!.videoPath);
 			await rememberApprovedLocalReadPath(currentRecordingSession!.webcamPath);

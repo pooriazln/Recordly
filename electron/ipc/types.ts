@@ -48,6 +48,7 @@ export type RecordingSessionData = {
 	webcamPath?: string | null;
 	timeOffsetMs?: number;
 	hideOverlayCursorByDefault?: boolean;
+	disableAutoSuggestedZoomsByDefault?: boolean;
 };
 
 export type PauseSegment = {
@@ -56,10 +57,12 @@ export type PauseSegment = {
 };
 
 export type RecordingSessionManifest = {
-	version: 1 | 2;
+	version: 1 | 2 | 3;
 	videoFileName: string;
 	webcamFileName?: string | null;
 	timeOffsetMs?: number;
+	hideOverlayCursorByDefault?: boolean;
+	disableAutoSuggestedZoomsByDefault?: boolean;
 };
 
 export type ProjectLibraryEntry = {
