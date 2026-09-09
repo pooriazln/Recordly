@@ -150,7 +150,11 @@ export function UpdateToastWindow() {
 
 	return (
 		<div className={`${styles.window} launch-theme`}>
-			<section className={styles.card} aria-live="polite" aria-label="Recordly update">
+			<section
+				className={styles.card}
+				aria-live="polite"
+				aria-label="Aryosense Recorder update"
+			>
 				<div
 					className={`${styles.icon} ${payload.phase === "error" ? styles.iconError : ""}`}
 				>

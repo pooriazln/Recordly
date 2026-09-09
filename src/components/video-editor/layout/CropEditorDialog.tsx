@@ -50,7 +50,7 @@ export function CropEditorDialog({
 					<Button
 						onClick={onDone}
 						size="lg"
-						className="bg-[#2563EB] text-white hover:bg-[#2563EB]/90"
+						className="bg-[#FF6F00] text-white hover:bg-[#FF6F00]/90"
 					>
 						{t("common.actions.done")}
 					</Button>

@@ -9,6 +9,7 @@ import {
 	XLogo as Twitter,
 } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -22,7 +23,6 @@ import { useScopedT } from "@/contexts/I18nContext";
 import { useShortcuts } from "@/contexts/ShortcutsContext";
 import { formatBinding, SHORTCUT_ACTIONS, SHORTCUT_LABELS } from "@/lib/shortcuts";
 import { formatShortcut } from "@/utils/platformUtils";
-import { toast } from "sonner";
 
 export const RECORDLY_ISSUES_URL = "https://github.com/webadderallorg/Recordly/issues";
 const RECORDLY_DISCORD_URL = "https://discord.gg/sdv2FBVNgE";
@@ -99,7 +99,7 @@ export function FeedbackDialog() {
 			<DialogContent className="max-w-lg bg-editor-dialog border-foreground/10 [&>button]:text-muted-foreground [&>button:hover]:text-foreground">
 				<DialogHeader>
 					<DialogTitle className="text-xl font-semibold text-foreground flex items-center gap-2">
-						<MessageSquareMore className="h-5 w-5 text-[#2563EB]" />{" "}
+						<MessageSquareMore className="h-5 w-5 text-[#FF6F00]" />{" "}
 						{t("feedback.title", "Feedback & contact")}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -215,7 +215,7 @@ export function KeyboardShortcutsDialog({
 			<DialogContent className="max-w-lg bg-editor-dialog border-foreground/10 [&>button]:text-muted-foreground [&>button:hover]:text-foreground">
 				<DialogHeader>
 					<DialogTitle className="text-xl font-semibold text-foreground flex items-center gap-2">
-						<Keyboard className="h-5 w-5 text-[#2563EB]" />{" "}
+						<Keyboard className="h-5 w-5 text-[#FF6F00]" />{" "}
 						{t("keyboardShortcuts.title")}
 					</DialogTitle>
 					<DialogDescription className="text-muted-foreground">
@@ -235,7 +235,7 @@ export function KeyboardShortcutsDialog({
 								<span className="text-muted-foreground">
 									{SHORTCUT_LABELS[action]}
 								</span>
-								<kbd className="rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#2563EB]">
+								<kbd className="rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#FF6F00]">
 									{formatBinding(shortcuts[action], isMac)}
 								</kbd>
 							</div>
@@ -245,7 +245,7 @@ export function KeyboardShortcutsDialog({
 								<p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
 									{t("keyboardShortcuts.panTimeline")}
 								</p>
-								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#2563EB]">
+								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#FF6F00]">
 									{scrollLabels.pan}
 								</kbd>
 							</div>
@@ -253,7 +253,7 @@ export function KeyboardShortcutsDialog({
 								<p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
 									{t("keyboardShortcuts.zoomTimeline")}
 								</p>
-								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#2563EB]">
+								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#FF6F00]">
 									{scrollLabels.zoom}
 								</kbd>
 							</div>
@@ -261,7 +261,7 @@ export function KeyboardShortcutsDialog({
 								<p className="text-[11px] uppercase tracking-[0.18em] text-muted-foreground/70">
 									{t("keyboardShortcuts.cycleAnnotations")}
 								</p>
-								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#2563EB]">
+								<kbd className="mt-2 inline-flex rounded border border-foreground/10 bg-foreground/10 px-2 py-1 font-mono text-[#FF6F00]">
 									{t("keyboardShortcuts.tab")}
 								</kbd>
 							</div>

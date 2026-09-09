@@ -1,5 +1,5 @@
 import { useTimelineContext } from "dnd-timeline";
-import { useEffect, useState, type RefObject } from "react";
+import { type RefObject, useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { formatPlayheadTime } from "../../core/time";
 
@@ -87,7 +87,7 @@ export default function PlaybackCursor({
 			}}
 		>
 			<div
-				className="absolute top-0 bottom-0 w-[2px] bg-[#2563EB] shadow-[0_0_10px_rgba(37,99,235,0.5)] cursor-ew-resize pointer-events-auto hover:shadow-[0_0_15px_rgba(37,99,235,0.7)] transition-shadow"
+				className="absolute top-0 bottom-0 w-[2px] bg-[#FF6F00] shadow-[0_0_10px_rgba(255,111,0,0.5)] cursor-ew-resize pointer-events-auto hover:shadow-[0_0_15px_rgba(255,111,0,0.7)] transition-shadow"
 				style={{ [sideProperty]: `${offset}px` }}
 				onMouseDown={(e) => {
 					e.stopPropagation();
@@ -98,7 +98,7 @@ export default function PlaybackCursor({
 					className="absolute -top-1 left-1/2 -translate-x-1/2 hover:scale-125 transition-transform"
 					style={{ width: "16px", height: "16px" }}
 				>
-					<div className="w-3 h-3 mx-auto mt-[2px] bg-[#2563EB] rotate-45 rounded-sm shadow-lg border border-foreground/20" />
+					<div className="w-3 h-3 mx-auto mt-[2px] bg-[#FF6F00] rotate-45 rounded-sm shadow-lg border border-foreground/20" />
 				</div>
 				<div
 					className={cn(

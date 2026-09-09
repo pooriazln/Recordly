@@ -66,8 +66,8 @@ export type CursorStyle =
 export const DEFAULT_CURSOR_STYLE: CursorStyle = "tahoe";
 
 export type CursorClickEffectStyle = "none" | "spotlight" | "ripple" | "echo";
-export const DEFAULT_CURSOR_CLICK_EFFECT: CursorClickEffectStyle = "none";
-export const DEFAULT_CURSOR_CLICK_EFFECT_COLOR = "#2563EB";
+export const DEFAULT_CURSOR_CLICK_EFFECT: CursorClickEffectStyle = "spotlight";
+export const DEFAULT_CURSOR_CLICK_EFFECT_COLOR = "#FF6F00";
 export const DEFAULT_CURSOR_CLICK_EFFECT_SCALE = 1;
 export const DEFAULT_CURSOR_CLICK_EFFECT_OPACITY = 1;
 export const DEFAULT_CURSOR_CLICK_EFFECT_DURATION_MS = 600;
@@ -154,7 +154,7 @@ export interface WebcamOverlaySettings {
 	margin: number;
 }
 
-export const DEFAULT_CURSOR_SIZE = 3.0;
+export const DEFAULT_CURSOR_SIZE = 3.5;
 export const DEFAULT_CURSOR_SMOOTHING = 0.67;
 export const DEFAULT_CURSOR_MOTION_BLUR = 0.6;
 export const DEFAULT_CURSOR_CLICK_BOUNCE = 2;
@@ -493,7 +493,7 @@ export const DEFAULT_ANNOTATION_STYLE: AnnotationTextStyle = {
 
 export const DEFAULT_FIGURE_DATA: FigureData = {
 	arrowDirection: "right",
-	color: "#2563EB",
+	color: "#FF6F00",
 	strokeWidth: 4,
 };
 

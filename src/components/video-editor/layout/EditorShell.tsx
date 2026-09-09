@@ -161,7 +161,7 @@ export function EditorShell(props: Props) {
 		);
 
 	return (
-		<div className="flex h-screen flex-col overflow-hidden bg-editor-bg text-foreground selection:bg-[#2563EB]/30">
+		<div className="flex h-screen flex-col overflow-hidden bg-editor-bg text-foreground selection:bg-[#FF6F00]/30">
 			<EditorHeader
 				t={t}
 				headerLeftControlsPaddingClass={headerLeftControlsPaddingClass}

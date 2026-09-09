@@ -325,6 +325,18 @@ describe("computeRegionStrength", () => {
 		expect(s).toBeLessThan(1);
 	});
 
+	it("finishes auto zoom-in at the interaction instead of after it", () => {
+		const autoRegion: ZoomRegion = {
+			...region,
+			startMs: 4_500,
+			endMs: 5_500,
+			mode: "auto",
+		};
+
+		expect(computeRegionStrength(autoRegion, 4_500)).toBeGreaterThan(0);
+		expect(computeRegionStrength(autoRegion, 5_000)).toBe(1);
+	});
+
 	it("falls smoothly during zoom-out", () => {
 		// Zoom-out now starts 200ms later than the original timing.
 		const zoomOutStart = region.endMs - 150;

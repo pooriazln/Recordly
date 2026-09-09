@@ -558,7 +558,7 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 			await window.electronAPI.openScreenRecordingPreferences();
 			alert(
 				options.startup
-					? "Recordly needs Screen Recording permission before you start. System Settings has been opened. After enabling it, quit and reopen Recordly."
+					? "Aryosense Recorder needs Screen Recording permission before you start. System Settings has been opened. After enabling it, quit and reopen Aryosense Recorder."
 					: "Screen Recording permission is still missing. System Settings has been opened again. Enable it, then quit and reopen Recordly before recording.",
 			);
 			return false;

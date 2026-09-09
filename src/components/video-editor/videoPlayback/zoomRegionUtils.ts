@@ -12,6 +12,10 @@ const CHAINED_ZOOM_PAN_GAP_MS = 1350;
 const CONNECTED_ZOOM_PAN_DURATION_MS = 1000;
 const ZOOM_IN_OVERLAP_MS = 1000;
 const ZOOM_ANIMATION_LEAD_MS = 200;
+// Auto-generated regions are centered on an interaction. Finish the zoom
+// before the click so the viewer sees the important action at full scale,
+// instead of watching the camera catch up after it happened.
+const AUTO_ZOOM_IN_LEAD_MS = -500;
 
 type DominantRegionOptions = {
 	connectZooms?: boolean;
@@ -41,33 +45,39 @@ export function computeRegionStrength(
 ) {
 	const zoomInDurationMs = Math.max(1, options.zoomInDurationMs ?? ZOOM_IN_TRANSITION_WINDOW_MS);
 	const zoomOutDurationMs = Math.max(1, options.zoomOutDurationMs ?? TRANSITION_WINDOW_MS);
-	const adjustedTimeMs = timeMs - ZOOM_ANIMATION_LEAD_MS;
+	const zoomInLeadMs = region.mode === "auto" ? AUTO_ZOOM_IN_LEAD_MS : ZOOM_ANIMATION_LEAD_MS;
+	const zoomOutLeadMs = ZOOM_ANIMATION_LEAD_MS;
 	const leadInStart = region.startMs + ZOOM_IN_OVERLAP_MS - ZOOM_IN_TRANSITION_WINDOW_MS;
 	let zoomOutStart = region.endMs - ZOOM_OUT_EARLY_START_MS;
 	let zoomInEnd = leadInStart + zoomInDurationMs;
+	let zoomInEndTime = zoomInEnd + zoomInLeadMs;
+	let zoomOutStartTime = zoomOutStart + zoomOutLeadMs;
 
-	if (zoomInEnd > zoomOutStart) {
-		const midpoint = (zoomInEnd + zoomOutStart) / 2;
-		zoomInEnd = midpoint;
-		zoomOutStart = midpoint;
+	if (zoomInEndTime > zoomOutStartTime) {
+		const midpoint = (zoomInEndTime + zoomOutStartTime) / 2;
+		zoomInEnd = midpoint - zoomInLeadMs;
+		zoomOutStart = midpoint - zoomOutLeadMs;
+		zoomInEndTime = midpoint;
+		zoomOutStartTime = midpoint;
 	}
 
-	const leadOutEnd = zoomOutStart + zoomOutDurationMs;
+	const leadInStartTime = leadInStart + zoomInLeadMs;
+	const leadOutEndTime = zoomOutStart + zoomOutDurationMs + zoomOutLeadMs;
 
-	if (adjustedTimeMs < leadInStart || adjustedTimeMs > leadOutEnd) {
+	if (timeMs < leadInStartTime || timeMs > leadOutEndTime) {
 		return 0;
 	}
 
-	if (adjustedTimeMs < zoomInEnd) {
-		const progress = (adjustedTimeMs - leadInStart) / zoomInDurationMs;
+	if (timeMs < zoomInEndTime) {
+		const progress = (timeMs - leadInStartTime) / zoomInDurationMs;
 		return easeOutZoom(progress);
 	}
 
-	if (adjustedTimeMs <= zoomOutStart) {
+	if (timeMs <= zoomOutStartTime) {
 		return 1;
 	}
 
-	const progress = clamp01((adjustedTimeMs - zoomOutStart) / zoomOutDurationMs);
+	const progress = clamp01((timeMs - zoomOutStartTime) / zoomOutDurationMs);
 	return 1 - easeOutZoom(progress);
 }
 

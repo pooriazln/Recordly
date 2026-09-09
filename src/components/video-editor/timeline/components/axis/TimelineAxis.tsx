@@ -1,5 +1,5 @@
 import { useTimelineContext } from "dnd-timeline";
-import { useMemo, type CSSProperties } from "react";
+import { type CSSProperties, useMemo } from "react";
 import { cn } from "@/lib/utils";
 import { calculateAxisScale, formatTimeLabel } from "../../core/time";
 
@@ -91,7 +91,7 @@ export default function TimelineAxis({ videoDurationMs, currentTimeMs }: Timelin
 								className={cn(
 									"text-[10px] font-medium tabular-nums tracking-tight",
 									Math.abs(marker.time - currentTimeMs) < 1
-										? "text-[#2563EB]"
+										? "text-[#FF6F00]"
 										: "text-foreground/40",
 								)}
 							>

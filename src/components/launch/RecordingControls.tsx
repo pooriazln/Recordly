@@ -7,9 +7,9 @@ import {
 	XIcon,
 } from "@phosphor-icons/react";
 import { useMemo } from "react";
-import { useScopedT } from "@/contexts/I18nContext";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useScopedT } from "@/contexts/I18nContext";
 import styles from "./LaunchWindow.module.css";
 
 interface RecordingControlsProps {
@@ -43,12 +43,12 @@ export const RecordingControls = ({
 				<div className="flex items-center gap-[5px]">
 					<div
 						className={`w-[7px] h-[7px] rounded-full ${
-							paused ? "bg-[#fbbf24]" : `bg-[#f43f5e] ${styles.recDotBlink}`
+							paused ? "bg-[#ffd700]" : `bg-[#f31260] ${styles.recDotBlink}`
 						}`}
 					/>
 					<span
 						className={`text-[10px] font-bold tracking-[0.06em] ${
-							paused ? "text-[#fbbf24]" : "text-[#f43f5e]"
+							paused ? "text-[#ffd700]" : "text-[#f31260]"
 						}`}
 					>
 						{paused ? t("recording.paused") : t("recording.rec")}
@@ -106,7 +106,7 @@ export const RecordingControls = ({
 					onClick={onStopRecording}
 					title={t("recording.stop")}
 					aria-label={t("recording.stop")}
-					className={`${styles.recBtn} ${styles.electronNoDrag}`}
+					className={`${styles.recBtn} ${styles.stopBtn} ${styles.electronNoDrag}`}
 				>
 					<span className={styles.stopSquare} />
 				</button>

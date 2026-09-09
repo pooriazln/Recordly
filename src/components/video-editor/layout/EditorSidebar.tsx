@@ -72,7 +72,7 @@ export function EditorSidebar({ t, activeSection, setActiveSection, settingsPane
 								<motion.span
 									className="relative z-10"
 									animate={{
-										color: isActive ? "#2563EB" : "hsl(var(--foreground))",
+										color: isActive ? "#FF6F00" : "hsl(var(--foreground))",
 									}}
 									transition={{ duration: 0.14 }}
 								>
@@ -86,7 +86,7 @@ export function EditorSidebar({ t, activeSection, setActiveSection, settingsPane
 								{isActive ? (
 									<motion.span
 										layoutId="rail-active-dot"
-										className="block h-1.5 w-1.5 rounded-full bg-[#2563EB]"
+										className="block h-1.5 w-1.5 rounded-full bg-[#FF6F00]"
 										initial={{ opacity: 0, scale: 0.5 }}
 										animate={{ opacity: 1, scale: 1 }}
 										exit={{ opacity: 0, scale: 0.5 }}

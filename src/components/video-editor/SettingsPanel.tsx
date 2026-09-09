@@ -142,7 +142,7 @@ const CAPTION_ANIMATION_OPTIONS: Array<{ value: AutoCaptionAnimation; label: str
 ];
 
 const CLICK_EFFECT_COLOR_OPTIONS = [
-	"#2563EB",
+	"#FF6F00",
 	"#EF4444",
 	"#F59E0B",
 	"#22C55E",
@@ -293,7 +293,7 @@ function MotionPresetCards({
 								"rounded-xl border px-3 py-3 text-left transition-all",
 								"border-foreground/10 bg-foreground/[0.03] hover:border-foreground/20 hover:bg-foreground/[0.06]",
 								isActive &&
-									"border-[#2563EB]/70 bg-[#2563EB]/12 shadow-[inset_0_0_0_1px_rgba(37,99,235,0.15)]",
+									"border-[#FF6F00]/70 bg-[#FF6F00]/12 shadow-[inset_0_0_0_1px_rgba(255,111,0,0.15)]",
 							)}
 						>
 							<div className="flex items-start gap-3">
@@ -301,7 +301,7 @@ function MotionPresetCards({
 									className={cn(
 										"mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-foreground/10 bg-black/10 text-muted-foreground",
 										isActive &&
-											"border-[#2563EB]/30 bg-[#2563EB]/10 text-[#75A6FF]",
+											"border-[#FF6F00]/30 bg-[#FF6F00]/10 text-[#75A6FF]",
 									)}
 								>
 									<Icon className="h-4 w-4" />
@@ -444,7 +444,7 @@ function CursorClickEffectCards({
 					type="button"
 					onClick={onToggleAdvanced}
 					aria-pressed={showAdvanced}
-					className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+					className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					title={
 						showAdvanced
 							? tSettings(
@@ -489,7 +489,7 @@ function CursorClickEffectCards({
 							title={`${label} - ${description}`}
 							className={cn(
 								"group aspect-square h-auto min-w-0 rounded-[10px] border border-foreground/10 bg-foreground/[0.03] p-3 text-left text-foreground shadow-none transition-all hover:border-foreground/20 hover:bg-foreground/[0.06]",
-								"data-[state=on]:border-[#2563EB]/70 data-[state=on]:bg-[#2563EB]/12 data-[state=on]:text-foreground",
+								"data-[state=on]:border-[#FF6F00]/70 data-[state=on]:bg-[#FF6F00]/12 data-[state=on]:text-foreground",
 							)}
 						>
 							<div className="flex h-full flex-col items-center justify-between gap-3">
@@ -1224,7 +1224,7 @@ export function SettingsPanel({
 		"#FF5722",
 		"#8BC34A",
 		"#FFC107",
-		"#2563EB",
+		"#FF6F00",
 		"#000000",
 		"#607D8B",
 		"#795548",
@@ -1448,7 +1448,7 @@ export function SettingsPanel({
 		cn(
 			"group relative aspect-square w-full overflow-hidden rounded-[10px] border bg-editor-bg transition-colors duration-150",
 			isSelected
-				? "border-[#2563EB] bg-foreground/[0.08]"
+				? "border-[#FF6F00] bg-foreground/[0.08]"
 				: "border-foreground/10 bg-foreground/[0.045] hover:border-foreground/20 hover:bg-foreground/[0.07]",
 		);
 
@@ -1743,7 +1743,7 @@ export function SettingsPanel({
 					<button
 						type="button"
 						onClick={resetBackgroundSection}
-						className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+						className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					>
 						{t("common.actions.reset", "Reset")}
 					</button>
@@ -1783,7 +1783,7 @@ export function SettingsPanel({
 									{isActive ? (
 										<motion.span
 											layoutId="background-picker-pill"
-											className="absolute inset-0 rounded-lg bg-[#2563EB]"
+											className="absolute inset-0 rounded-lg bg-[#FF6F00]"
 											transition={{
 												type: "spring",
 												stiffness: 420,
@@ -1828,7 +1828,7 @@ export function SettingsPanel({
 									<Button
 										onClick={() => fileInputRef.current?.click()}
 										variant="outline"
-										className="w-full gap-2 bg-foreground/5 text-foreground border-foreground/10 hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all h-7 text-[10px]"
+										className="w-full gap-2 bg-foreground/5 text-foreground border-foreground/10 hover:bg-[#FF6F00] hover:text-white hover:border-[#FF6F00] transition-all h-7 text-[10px]"
 									>
 										<Upload className="w-3 h-3" />
 										{tSettings("background.uploadCustom")}
@@ -1886,7 +1886,7 @@ export function SettingsPanel({
 									<Button
 										onClick={handleVideoUpload}
 										variant="outline"
-										className="w-full gap-2 bg-foreground/5 text-foreground border-foreground/10 hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all h-7 text-[10px]"
+										className="w-full gap-2 bg-foreground/5 text-foreground border-foreground/10 hover:bg-[#FF6F00] hover:text-white hover:border-[#FF6F00] transition-all h-7 text-[10px]"
 									>
 										<Upload className="w-3 h-3" />
 										{tSettings("background.uploadCustomVideo", "Upload Video")}
@@ -2070,7 +2070,7 @@ export function SettingsPanel({
 					style={{ scrollbarGutter: "stable" }}
 				>
 					<div className="mb-4 flex items-center gap-2">
-						<Palette className="w-4 h-4 text-[#2563EB]" />
+						<Palette className="w-4 h-4 text-[#FF6F00]" />
 						<span className="text-sm font-medium text-foreground">
 							{tSettings("background.title")}
 						</span>
@@ -2088,7 +2088,7 @@ export function SettingsPanel({
 				<button
 					type="button"
 					onClick={resetFrameSection}
-					className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+					className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 				>
 					{t("common.actions.reset", "Reset")}
 				</button>
@@ -2123,7 +2123,7 @@ export function SettingsPanel({
 							type="button"
 							onClick={togglePaddingLink}
 							aria-pressed={padding.linked === false}
-							className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+							className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 							title={
 								padding.linked === false
 									? tSettings(
@@ -2208,7 +2208,7 @@ export function SettingsPanel({
 					<Switch
 						checked={removeBackgroundEnabled}
 						onCheckedChange={handleRemoveBackgroundToggle}
-						className="data-[state=checked]:bg-[#2563EB] scale-75"
+						className="data-[state=checked]:bg-[#FF6F00] scale-75"
 					/>
 				</div>
 			</div>
@@ -2223,7 +2223,7 @@ export function SettingsPanel({
 					<button
 						type="button"
 						onClick={resetCropSection}
-						className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+						className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					>
 						{t("common.actions.reset", "Reset")}
 					</button>
@@ -2286,7 +2286,7 @@ export function SettingsPanel({
 					<button
 						type="button"
 						onClick={() => onAutoCaptionSettingsChange?.(DEFAULT_AUTO_CAPTION_SETTINGS)}
-						className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+						className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					>
 						{t("common.actions.reset", "Reset")}
 					</button>
@@ -2296,7 +2296,7 @@ export function SettingsPanel({
 					<Switch
 						checked={autoCaptionSettings.enabled}
 						onCheckedChange={(enabled) => updateAutoCaptionSettings({ enabled })}
-						className="data-[state=checked]:bg-[#2563EB] scale-75"
+						className="data-[state=checked]:bg-[#FF6F00] scale-75"
 					/>
 				</div>
 			</div>
@@ -2356,7 +2356,7 @@ export function SettingsPanel({
 							<Button
 								type="button"
 								onClick={onDownloadWhisperSmallModel}
-								className="h-10 w-full rounded-xl bg-[#2563EB] px-4 text-sm font-medium text-white hover:bg-[#2563EB]/90"
+								className="h-10 w-full rounded-xl bg-[#FF6F00] px-4 text-sm font-medium text-white hover:bg-[#FF6F00]/90"
 							>
 								{tSettings("captions.downloadModel", "Download Model")}
 							</Button>
@@ -2377,7 +2377,7 @@ export function SettingsPanel({
 						type="button"
 						onClick={onGenerateAutoCaptions}
 						disabled={isGeneratingCaptions || !whisperModelPath}
-						className="h-10 w-full rounded-xl bg-[#2563EB] px-4 text-sm font-medium text-white hover:bg-[#2563EB]/90 disabled:opacity-60"
+						className="h-10 w-full rounded-xl bg-[#FF6F00] px-4 text-sm font-medium text-white hover:bg-[#FF6F00]/90 disabled:opacity-60"
 					>
 						{isGeneratingCaptions
 							? tSettings("captions.generating", "Generating...")
@@ -2445,7 +2445,7 @@ export function SettingsPanel({
 							"captions.timelineQuickAdd",
 							"Hover to add on timeline",
 						)}
-						className="data-[state=checked]:bg-[#2563EB] scale-75"
+						className="data-[state=checked]:bg-[#FF6F00] scale-75"
 					/>
 				</div>
 				<label className="flex items-center justify-between rounded-lg bg-foreground/[0.03] px-2.5 py-2">
@@ -2603,7 +2603,7 @@ export function SettingsPanel({
 								void updateExperimentalUpdatesPreference(enabled)
 							}
 							aria-label={tSettings("updates.experimental", "Experimental updates")}
-							className="data-[state=checked]:bg-[#2563EB] scale-75"
+							className="data-[state=checked]:bg-[#FF6F00] scale-75"
 						/>
 					</div>
 				</section>
@@ -2627,7 +2627,7 @@ export function SettingsPanel({
 						<Switch
 							checked={autoApplyFreshRecordingAutoZooms}
 							onCheckedChange={onAutoApplyFreshRecordingAutoZoomsChange}
-							className="data-[state=checked]:bg-[#2563EB] scale-75"
+							className="data-[state=checked]:bg-[#FF6F00] scale-75"
 						/>
 					</div>
 					<div className="flex items-center justify-between gap-3 rounded-lg bg-foreground/[0.03] px-2.5 py-2">
@@ -2645,7 +2645,7 @@ export function SettingsPanel({
 						<Switch
 							checked={connectZooms}
 							onCheckedChange={onConnectZoomsChange}
-							className="data-[state=checked]:bg-[#2563EB] scale-75"
+							className="data-[state=checked]:bg-[#FF6F00] scale-75"
 						/>
 					</div>
 				</section>
@@ -2668,7 +2668,7 @@ export function SettingsPanel({
 				</section>
 
 				{showDevMotionControls ? (
-					<section className="flex flex-col gap-2 rounded-xl border border-[#2563EB]/15 bg-[#2563EB]/5 p-3">
+					<section className="flex flex-col gap-2 rounded-xl border border-[#FF6F00]/15 bg-[#FF6F00]/5 p-3">
 						<div className="flex items-center justify-between gap-3">
 							<div>
 								<SectionLabel>
@@ -2681,7 +2681,7 @@ export function SettingsPanel({
 									)}
 								</div>
 							</div>
-							<span className="rounded-full bg-[#2563EB]/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#2563EB]">
+							<span className="rounded-full bg-[#FF6F00]/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#FF6F00]">
 								DEV
 							</span>
 						</div>
@@ -2712,7 +2712,7 @@ export function SettingsPanel({
 									variant="outline"
 									size="sm"
 									onClick={() => onOpenNativeCaptureUnavailableModal?.()}
-									className="h-8 shrink-0 border-[#2563EB]/20 bg-[#2563EB]/10 text-[#2563EB] hover:bg-[#2563EB]/15"
+									className="h-8 shrink-0 border-[#FF6F00]/20 bg-[#FF6F00]/10 text-[#FF6F00] hover:bg-[#FF6F00]/15"
 								>
 									{tSettings("effects.openNativeCaptureWarning", "Open warning")}
 								</Button>
@@ -2862,7 +2862,7 @@ export function SettingsPanel({
 						<div className="flex items-center justify-between gap-3">
 							<SectionLabel>{tSettings("sections.zoom", "Zoom")}</SectionLabel>
 							{selectedZoomDepth && (
-								<span className="rounded-full bg-[#2563EB]/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#2563EB]">
+								<span className="rounded-full bg-[#FF6F00]/10 px-2 py-0.5 text-[10px] font-medium uppercase tracking-wider text-[#FF6F00]">
 									{
 										ZOOM_DEPTH_OPTIONS.find(
 											(o) => o.depth === selectedZoomDepth,
@@ -2879,7 +2879,7 @@ export function SettingsPanel({
 									className={cn(
 										"flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-all",
 										selectedZoomMode === "auto"
-											? "bg-[#2563EB] text-white shadow-sm"
+											? "bg-[#FF6F00] text-white shadow-sm"
 											: "text-muted-foreground hover:text-foreground",
 									)}
 								>
@@ -2891,7 +2891,7 @@ export function SettingsPanel({
 									className={cn(
 										"flex-1 rounded-md px-3 py-1.5 text-xs font-medium transition-all",
 										selectedZoomMode === "manual"
-											? "bg-[#2563EB] text-white shadow-sm"
+											? "bg-[#FF6F00] text-white shadow-sm"
 											: "text-muted-foreground hover:text-foreground",
 									)}
 								>
@@ -2921,7 +2921,7 @@ export function SettingsPanel({
 										className={cn(
 											"h-auto w-full rounded-lg border px-1 py-2 text-center shadow-sm transition-all duration-200 ease-out cursor-pointer",
 											isActive
-												? "border-[#2563EB] bg-[#2563EB] text-white"
+												? "border-[#FF6F00] bg-[#FF6F00] text-white"
 												: "border-foreground/5 bg-foreground/5 text-muted-foreground hover:bg-foreground/10 hover:border-foreground/10 hover:text-foreground",
 										)}
 									>
@@ -2940,7 +2940,7 @@ export function SettingsPanel({
 					<button
 						type="button"
 						onClick={resetZoomSection}
-						className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+						className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					>
 						{t("common.actions.reset", "Reset")}
 					</button>
@@ -2952,7 +2952,7 @@ export function SettingsPanel({
 					<Switch
 						checked={zoomClassicMode}
 						onCheckedChange={(v) => onZoomClassicModeChange?.(v)}
-						className="data-[state=checked]:bg-[#2563EB] scale-75"
+						className="data-[state=checked]:bg-[#FF6F00] scale-75"
 					/>
 				</div>
 				{!zoomClassicMode && (
@@ -2989,7 +2989,7 @@ export function SettingsPanel({
 							onAudioVolumeChange?.(1);
 							onAudioNormalizeChange?.(false);
 						}}
-						className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+						className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 					>
 						{t("common.actions.reset", "Reset")}
 					</button>
@@ -3012,7 +3012,7 @@ export function SettingsPanel({
 					<Switch
 						checked={Boolean(selectedAudioNormalize)}
 						onCheckedChange={(v) => onAudioNormalizeChange?.(v)}
-						className="data-[state=checked]:bg-[#2563EB] scale-75"
+						className="data-[state=checked]:bg-[#FF6F00] scale-75"
 					/>
 				</div>
 			</section>
@@ -3132,7 +3132,7 @@ export function SettingsPanel({
 													false,
 												);
 											}}
-											className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+											className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 										>
 											{t("common.actions.reset", "Reset")}
 										</button>
@@ -3230,7 +3230,7 @@ export function SettingsPanel({
 								<button
 									type="button"
 									onClick={resetCursorSection}
-									className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+									className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 								>
 									{t("common.actions.reset", "Reset")}
 								</button>
@@ -3241,7 +3241,7 @@ export function SettingsPanel({
 									<Switch
 										checked={showCursor}
 										onCheckedChange={onShowCursorChange}
-										className="data-[state=checked]:bg-[#2563EB] scale-75"
+										className="data-[state=checked]:bg-[#FF6F00] scale-75"
 									/>
 								</label>
 								<label className="flex items-center gap-1.5 text-[10px] text-muted-foreground">
@@ -3249,7 +3249,7 @@ export function SettingsPanel({
 									<Switch
 										checked={loopCursor}
 										onCheckedChange={onLoopCursorChange}
-										className="data-[state=checked]:bg-[#2563EB] scale-75"
+										className="data-[state=checked]:bg-[#FF6F00] scale-75"
 									/>
 								</label>
 							</div>
@@ -3275,7 +3275,7 @@ export function SettingsPanel({
 											aria-label={option.label}
 											className={cn(
 												"group aspect-square h-auto min-w-0 rounded-[10px] border border-foreground/10 bg-foreground/[0.03] p-3 text-left text-foreground shadow-none transition-all hover:border-foreground/20 hover:bg-foreground/[0.06]",
-												"data-[state=on]:border-[#2563EB]/70 data-[state=on]:bg-[#2563EB]/12 data-[state=on]:text-foreground",
+												"data-[state=on]:border-[#FF6F00]/70 data-[state=on]:bg-[#FF6F00]/12 data-[state=on]:text-foreground",
 											)}
 										>
 											<div className="flex h-full flex-col items-center justify-between gap-3">
@@ -3348,7 +3348,7 @@ export function SettingsPanel({
 														className={cn(
 															"h-6 w-6 rounded-[8px] border transition-transform hover:scale-[1.04]",
 															isSelected
-																? "border-foreground/80 ring-1 ring-[#2563EB]/50"
+																? "border-foreground/80 ring-1 ring-[#FF6F00]/50"
 																: "border-foreground/10",
 														)}
 														style={{ backgroundColor: color }}
@@ -3484,7 +3484,7 @@ export function SettingsPanel({
 							<button
 								type="button"
 								onClick={resetWebcamSection}
-								className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+								className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 							>
 								{t("common.actions.reset", "Reset")}
 							</button>
@@ -3497,7 +3497,7 @@ export function SettingsPanel({
 								<Switch
 									checked={webcam?.enabled ?? false}
 									onCheckedChange={(enabled) => updateWebcam({ enabled })}
-									className="data-[state=checked]:bg-[#2563EB] scale-75"
+									className="data-[state=checked]:bg-[#FF6F00] scale-75"
 								/>
 							</div>
 							<div className="flex items-center justify-between rounded-lg bg-foreground/[0.03] px-2.5 py-1.5">
@@ -3507,7 +3507,7 @@ export function SettingsPanel({
 								<Switch
 									checked={webcam?.reactToZoom ?? DEFAULT_WEBCAM_REACT_TO_ZOOM}
 									onCheckedChange={(reactToZoom) => updateWebcam({ reactToZoom })}
-									className="data-[state=checked]:bg-[#2563EB] scale-75"
+									className="data-[state=checked]:bg-[#FF6F00] scale-75"
 								/>
 							</div>
 							<div className="flex items-center justify-between rounded-lg bg-foreground/[0.03] px-2.5 py-1.5">
@@ -3517,7 +3517,7 @@ export function SettingsPanel({
 								<Switch
 									checked={webcam?.mirror ?? true}
 									onCheckedChange={(mirror) => updateWebcam({ mirror })}
-									className="data-[state=checked]:bg-[#2563EB] scale-75"
+									className="data-[state=checked]:bg-[#FF6F00] scale-75"
 								/>
 							</div>
 							<SliderControl
@@ -3552,7 +3552,7 @@ export function SettingsPanel({
 										onClick={() =>
 											updateWebcam({ cropRegion: DEFAULT_CROP_REGION })
 										}
-										className="text-[10px] text-[#2563EB] transition-opacity hover:opacity-80"
+										className="text-[10px] text-[#FF6F00] transition-opacity hover:opacity-80"
 									>
 										{t("common.actions.reset", "Reset")}
 									</button>
@@ -3597,7 +3597,7 @@ export function SettingsPanel({
 												className={cn(
 													"h-8 rounded-lg border px-0 text-sm font-semibold transition-all",
 													isActive
-														? "border-[#2563EB] bg-[#2563EB] text-white"
+														? "border-[#FF6F00] bg-[#FF6F00] text-white"
 														: "border-foreground/10 bg-foreground/5 text-muted-foreground hover:border-foreground/20 hover:bg-foreground/10",
 												)}
 											>
@@ -3620,7 +3620,7 @@ export function SettingsPanel({
 												checked ? "custom" : DEFAULT_WEBCAM_POSITION_PRESET,
 											)
 										}
-										className="data-[state=checked]:bg-[#2563EB] scale-75"
+										className="data-[state=checked]:bg-[#FF6F00] scale-75"
 									/>
 								</div>
 							</div>

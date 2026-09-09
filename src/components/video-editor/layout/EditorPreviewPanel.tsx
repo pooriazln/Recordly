@@ -142,7 +142,7 @@ export function EditorPreviewPanel(props: Props) {
 									>
 										<span>{getAspectRatioLabel(ratio)}</span>
 										{aspectRatio === ratio ? (
-											<Check className="h-3 w-3 text-[#2563EB]" />
+											<Check className="h-3 w-3 text-[#FF6F00]" />
 										) : null}
 									</DropdownMenuItem>
 								))}
@@ -158,7 +158,7 @@ export function EditorPreviewPanel(props: Props) {
 							<Crop className="h-3.5 w-3.5" />
 							<span className="font-medium">{t("settings.crop.title")}</span>
 							{isCropped ? (
-								<span className="h-1.5 w-1.5 rounded-full bg-[#2563EB]" />
+								<span className="h-1.5 w-1.5 rounded-full bg-[#FF6F00]" />
 							) : null}
 						</Button>
 					</div>
@@ -273,7 +273,7 @@ export function EditorPreviewPanel(props: Props) {
 						onClick={() => timelineRef.current?.addZoom()}
 						variant="ghost"
 						size="icon"
-						className="h-7 w-7 rounded-full text-muted-foreground transition-all hover:bg-[#2563EB]/10 hover:text-[#2563EB]"
+						className="h-7 w-7 rounded-full text-muted-foreground transition-all hover:bg-[#FF6F00]/10 hover:text-[#FF6F00]"
 						title={t("timeline.zoom.addZoom")}
 					>
 						<MagnifyingGlassPlus className="h-4 w-4" />
@@ -282,7 +282,7 @@ export function EditorPreviewPanel(props: Props) {
 						onClick={() => timelineRef.current?.suggestZooms()}
 						variant="ghost"
 						size="icon"
-						className="h-7 w-7 rounded-full text-muted-foreground transition-all hover:bg-[#2563EB]/10 hover:text-[#2563EB]"
+						className="h-7 w-7 rounded-full text-muted-foreground transition-all hover:bg-[#FF6F00]/10 hover:text-[#FF6F00]"
 						title={t("timeline.zoom.suggestZooms")}
 					>
 						<MagicWand className="h-4 w-4" />
@@ -367,7 +367,7 @@ export function EditorPreviewPanel(props: Props) {
 								}}
 							/>
 							<div
-								className="pointer-events-none absolute bottom-[18%] top-[18%] z-10 w-0.5 rounded-full bg-foreground/95 shadow-[0_0_10px_rgba(37,99,235,0.28)]"
+								className="pointer-events-none absolute bottom-[18%] top-[18%] z-10 w-0.5 rounded-full bg-foreground/95 shadow-[0_0_10px_rgba(255,111,0,0.28)]"
 								style={{ left: `calc(${previewVolume * 100}% - 8px)` }}
 							/>
 							<span className="pointer-events-none relative z-10 pl-2 text-[10px] font-medium text-muted-foreground">

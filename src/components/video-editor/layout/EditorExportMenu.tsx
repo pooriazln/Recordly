@@ -99,7 +99,7 @@ export function EditorExportMenu(props: Props) {
 				<Button
 					type="button"
 					onClick={handleOpenExportDropdown}
-					className="inline-flex h-8 min-w-[112px] items-center justify-center gap-2 rounded-[5px] bg-[#2563EB] px-4.5 text-white transition-colors hover:bg-[#2563EB]/92"
+					className="inline-flex h-8 min-w-[112px] items-center justify-center gap-2 rounded-[5px] bg-[#FF6F00] px-4.5 text-white transition-colors hover:bg-[#FF6F00]/92"
 				>
 					<Download className="h-4 w-4" />
 					<span className="text-sm font-semibold tracking-tight">
@@ -149,7 +149,7 @@ export function EditorExportMenu(props: Props) {
 								<div className="indeterminate-progress h-full rounded-full bg-transparent" />
 							) : (
 								<div
-									className="h-full bg-[#2563EB] transition-all duration-300 ease-out"
+									className="h-full bg-[#FF6F00] transition-all duration-300 ease-out"
 									style={{
 										width: `${Math.min(isRenderingAudio ? (exportProgress?.audioProgress ?? 0) * 100 : (exportFinalizingProgress ?? exportProgress?.percentage ?? 8), 100)}%`,
 									}}
@@ -198,7 +198,7 @@ export function EditorExportMenu(props: Props) {
 								<Button
 									type="button"
 									onClick={handleRetrySaveExport}
-									className="h-8 flex-1 rounded-[5px] bg-[#2563EB] text-xs font-semibold text-white hover:bg-[#2563EB]/92"
+									className="h-8 flex-1 rounded-[5px] bg-[#FF6F00] text-xs font-semibold text-white hover:bg-[#FF6F00]/92"
 								>
 									{t("editor.actions.saveAgain", "Save Again")}
 								</Button>
@@ -236,7 +236,7 @@ export function EditorExportMenu(props: Props) {
 							<Button
 								type="button"
 								onClick={revealExportedFile}
-								className="h-8 flex-1 rounded-[5px] bg-[#2563EB] text-xs font-semibold text-white hover:bg-[#2563EB]/92"
+								className="h-8 flex-1 rounded-[5px] bg-[#FF6F00] text-xs font-semibold text-white hover:bg-[#FF6F00]/92"
 							>
 								{t("editor.actions.showInFolder", "Show In Folder")}
 							</Button>

@@ -30,7 +30,9 @@ export interface CursorMotionPresetSelectionInput {
 }
 
 const SHARED_CURSOR_PRESET_VALUES = {
-	cursorSize: 2.5,
+	// Keep the pointer prominent in exported videos, even when the recording
+	// is viewed at a smaller size than the editor preview.
+	cursorSize: 3.5,
 	cursorSmoothing: 0.67,
 	cursorSpringMassMultiplier: 1.29,
 	cursorClickBounce: 2,

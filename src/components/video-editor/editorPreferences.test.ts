@@ -110,9 +110,9 @@ describe("editorPreferences", () => {
 		expect(DEFAULT_EDITOR_PREFERENCES.exportQuality).toBe("source");
 	});
 
-	it("defaults cursor preferences to Tahoe at 2.5x with gentler sway", () => {
+	it("defaults cursor preferences to a large Tahoe pointer with gentler sway", () => {
 		expect(DEFAULT_EDITOR_PREFERENCES.cursorStyle).toBe("tahoe");
-		expect(DEFAULT_EDITOR_PREFERENCES.cursorSize).toBe(2.5);
+		expect(DEFAULT_EDITOR_PREFERENCES.cursorSize).toBe(3.5);
 		expect(DEFAULT_EDITOR_PREFERENCES.cursorSway).toBe(0.4);
 	});
 

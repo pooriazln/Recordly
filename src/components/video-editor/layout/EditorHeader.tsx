@@ -143,7 +143,7 @@ export function EditorHeader(props: Props) {
 					type="button"
 					variant="ghost"
 					onClick={handleRecordAgain}
-					className="ml-1 inline-flex h-8 items-center gap-1.5 rounded-[5px] border border-[#2563EB]/30 bg-[#2563EB]/10 px-2 text-xs font-medium text-[#2563EB] transition-colors hover:bg-[#2563EB]/20"
+					className="ml-1 inline-flex h-8 items-center gap-1.5 rounded-[5px] border border-[#FF6F00]/30 bg-[#FF6F00]/10 px-2 text-xs font-medium text-[#FF6F00] transition-colors hover:bg-[#FF6F00]/20"
 					title={t("editor.recordAgain.title", "Record again")}
 					aria-label={t("editor.recordAgain.title", "Record again")}
 				>
@@ -162,7 +162,7 @@ export function EditorHeader(props: Props) {
 						className="flex max-w-[min(52vw,460px)] items-baseline gap-1 rounded-[7px] border border-foreground/10 bg-editor-panel/[0.88] px-2.5 py-1 shadow-[0_10px_28px_rgba(0,0,0,0.18)]"
 					>
 						{hasUnsavedChanges ? (
-							<span className="mt-[1px] size-2 shrink-0 rounded-full bg-[#2563EB]" />
+							<span className="mt-[1px] size-2 shrink-0 rounded-full bg-[#FF6F00]" />
 						) : null}
 						<input
 							ref={projectNameInputRef}
@@ -196,7 +196,7 @@ export function EditorHeader(props: Props) {
 						aria-label={t("editor.project.renameTitle", "Rename project")}
 					>
 						{hasUnsavedChanges ? (
-							<span className="mt-[1px] size-2 shrink-0 rounded-full bg-[#2563EB]" />
+							<span className="mt-[1px] size-2 shrink-0 rounded-full bg-[#FF6F00]" />
 						) : null}
 						<span className="truncate text-sm font-semibold tracking-tight text-foreground/90">
 							{projectDisplayName}

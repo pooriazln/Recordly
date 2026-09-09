@@ -1,7 +1,7 @@
 import {
 	ArrowClockwiseIcon,
 	CaretUpIcon,
-	DotsThreeVerticalIcon,
+	GearSixIcon,
 	MicrophoneIcon,
 	MicrophoneSlashIcon,
 	MinusIcon,
@@ -406,8 +406,14 @@ function LaunchWindowContent() {
 				}}
 				appVersion={appVersion}
 				trigger={
-					<Button variant="ghost" size="icon" iconSize="lg" title={t("recording.more")}>
-						<DotsThreeVerticalIcon size={18} />
+					<Button
+						variant="ghost"
+						size="icon"
+						iconSize="lg"
+						title={t("recording.settings", "Settings")}
+						aria-label={t("recording.settings", "Settings")}
+					>
+						<GearSixIcon size={18} />
 					</Button>
 				}
 			/>

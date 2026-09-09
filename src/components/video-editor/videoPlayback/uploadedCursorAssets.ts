@@ -37,6 +37,9 @@ const TAHOE_POINTER_CONTENT_HEIGHT = 851;
 const WINDOWS11_CURSOR_VIEWBOX_HEIGHT = 32;
 // Alpha bounds measured after correcting the bottom-up Windows system SVG coordinates.
 const WINDOWS11_ARROW_CONTENT_HEIGHT = 19.0625;
+// Aryosense keeps the pointer a little larger than the native cursor so it
+// stays readable in recordings viewed on phones and embedded players.
+const ARYOSENSE_CURSOR_SCALE = 1.18;
 
 // Measured from the raw pointer assets using the non-shadow pixel bounds.
 const MACOS_CURSOR_STYLE_SIZE_MULTIPLIER =
@@ -119,10 +122,11 @@ export const cursorSetAssets: Record<
 };
 
 export const cursorStyleSizeMultipliers: Record<CursorSetStyle, number> = {
-	macos: MACOS_CURSOR_STYLE_SIZE_MULTIPLIER,
-	tahoe: 1,
-	"tahoe-inverted": 1,
-	windows11: WINDOWS11_CURSOR_VIEWBOX_HEIGHT / WINDOWS11_ARROW_CONTENT_HEIGHT,
+	macos: MACOS_CURSOR_STYLE_SIZE_MULTIPLIER * ARYOSENSE_CURSOR_SCALE,
+	tahoe: ARYOSENSE_CURSOR_SCALE,
+	"tahoe-inverted": ARYOSENSE_CURSOR_SCALE,
+	windows11:
+		(WINDOWS11_CURSOR_VIEWBOX_HEIGHT / WINDOWS11_ARROW_CONTENT_HEIGHT) * ARYOSENSE_CURSOR_SCALE,
 };
 
 export function getCursorStyleSizeMultiplier(style: CursorStyle) {

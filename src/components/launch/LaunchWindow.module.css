@@ -72,11 +72,11 @@
 }
 
 .ibActive {
-	color: #3d8bff;
+	color: var(--launch-accent);
 }
 
 .ibActive:hover {
-	color: #62a4ff;
+	color: #ff8c33;
 }
 
 .ibRed {
@@ -182,7 +182,7 @@
 }
 
 .finalizingSpin {
-	color: #3d8bff;
+	color: var(--launch-accent);
 	animation: finalizingSpin 0.9s linear infinite;
 }
 
@@ -216,7 +216,7 @@
 	height: 46px;
 	border-radius: 50%;
 	border: none;
-	background: #f43f5e;
+	background: var(--launch-accent);
 	color: #fff;
 	cursor: pointer;
 	display: inline-flex;
@@ -224,12 +224,21 @@
 	justify-content: center;
 	transition: all 0.2s ease;
 	flex-shrink: 0;
-	box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.3);
+	box-shadow: 0 0 0 0 rgba(255, 111, 0, 0.3);
 }
 
 .recBtn:hover {
-	background: #ff5a75;
-	box-shadow: 0 0 0 6px rgba(244, 63, 94, 0.15);
+	background: #e66400;
+	box-shadow: 0 0 0 6px rgba(255, 111, 0, 0.18);
+}
+
+.stopBtn {
+	background: #f31260;
+}
+
+.stopBtn:hover {
+	background: #ff3d83;
+	box-shadow: 0 0 0 6px rgba(243, 18, 96, 0.18);
 }
 
 .recBtn:disabled {
@@ -238,7 +247,7 @@
 }
 
 .recBtn:disabled:hover {
-	background: #f43f5e;
+	background: var(--launch-accent);
 	box-shadow: none;
 }
 
