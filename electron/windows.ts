@@ -36,6 +36,7 @@ let hudOverlaySourceSelectionActive = false;
 let hudOverlayMouseReassertTimer: NodeJS.Timeout | null = null;
 let hudOverlayRecordingActive = false;
 let hudOverlayWebcamPreviewVisible = false;
+let hudUserPosition: { x: number; y: number } | null = null;
 let countdownWindow: BrowserWindow | null = null;
 let updateToastWindow: BrowserWindow | null = null;
 let hudWasVisibleBeforeUpdateToast = false;
@@ -207,11 +208,18 @@ function getHudOverlayBounds() {
 		recordingActive: hudOverlayRecordingActive,
 		webcamPreviewVisible: hudOverlayWebcamPreviewVisible,
 	});
-	return getHudOverlayWindowBounds(
+	const defaultBounds = getHudOverlayWindowBounds(
 		workArea,
 		isHudOverlayMousePassthroughSupported(),
 		fallbackExpanded,
 	);
+
+	// Recording-state changes can resize/reflow the HUD. Keep the window where
+	// the user dragged it instead of silently snapping it back to the default
+	// bottom-center position.
+	return hudUserPosition
+		? { ...defaultBounds, x: hudUserPosition.x, y: hudUserPosition.y }
+		: defaultBounds;
 }
 
 function applyHudOverlayBounds() {
@@ -343,7 +351,6 @@ ipcMain.on("hud-overlay-set-source-selection-active", (_event, active: boolean) 
 });
 
 // Keep compatibility with existing drag IPC/state.
-let hudUserPosition: { x: number; y: number } | null = null;
 let hudDragOffset: { x: number; y: number } | null = null;
 let hudDragLastCursor: { x: number; y: number } | null = null;
 let hudDragFixedSize: { width: number; height: number } | null = null;
@@ -356,8 +363,13 @@ ipcMain.on("hud-overlay-drag", (_event, phase: string, screenX: number, screenY:
 	// the HUD appears "stuck".  The renderer marks the drag handle as
 	// -webkit-app-region: drag on Linux, letting the OS move the window for us.
 	// The resulting position is captured by the win.on("moved", ...) listener
-	// below so `hudUserPosition` stays in sync.
+	// below so `hudUserPosition` stays in sync. Capture it again at the end of
+	// the drag because some Wayland compositors do not emit a final moved event.
 	if (process.platform === "linux") {
+		if (phase === "end") {
+			const finalBounds = hudOverlayWindow.getBounds();
+			hudUserPosition = { x: finalBounds.x, y: finalBounds.y };
+		}
 		return;
 	}
 

@@ -2177,9 +2177,18 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 				if (event.data && event.data.size > 0) chunks.current.push(event.data);
 			};
 			recorder.onstop = async () => {
+				// Chromium normally dispatches dataavailable before stop, but under
+				// load the final chunk can arrive on the next task. Give it a short,
+				// bounded window so a valid recording is not discarded as empty.
+				for (let attempt = 0; chunks.current.length === 0 && attempt < 10; attempt += 1) {
+					await new Promise<void>((resolve) => setTimeout(resolve, 20));
+				}
+
 				cleanupCapturedMedia();
 				if (chunks.current.length === 0) {
-					setFinalizing(false);
+					await notifyRecordingFinalizationFailure(
+						"The recording stopped without producing a video file. Please try again.",
+					);
 					return;
 				}
 
@@ -2254,8 +2263,12 @@ export function useScreenRecorder(): UseScreenRecorderReturn {
 					);
 				}
 			};
-			recorder.onerror = () => {
+			recorder.onerror = (event) => {
+				console.error("Browser MediaRecorder error while stopping:", event);
 				setRecording(false);
+				void notifyRecordingFinalizationFailure(
+					"The recording failed while it was being finalized. Please try again.",
+				);
 			};
 			const mainStartedAt = Date.now();
 			beginWebcamCapture();
