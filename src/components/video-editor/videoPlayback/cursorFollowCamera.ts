@@ -185,6 +185,14 @@ export function computeCursorFollowFocus(
 
 	state.lastTimeMs = timeMs;
 
+	// An automatic zoom represents a known upcoming interaction. Hold the
+	// camera on that interaction point until the zoom is fully established;
+	// otherwise it starts at the click and immediately chases earlier cursor
+	// movement, which reads as a zoom into the middle followed by a pan.
+	if (!state.reachedFullZoom) {
+		return { cx: state.focusX, cy: state.focusY };
+	}
+
 	const targetFocus = recenterFocusWhenCursorLeavesSafeZone(
 		{ cx: state.focusX, cy: state.focusY },
 		{ cx: cursorPos.cx, cy: cursorPos.cy },

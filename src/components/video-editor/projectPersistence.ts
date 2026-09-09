@@ -849,6 +849,12 @@ export function normalizeProjectEditor(editor: Partial<ProjectEditorState>): Pro
 				? "tahoe-inverted"
 				: editor.cursorStyle
 			: DEFAULT_CURSOR_STYLE;
+	const usesLegacyDefaultCursorMotion =
+		editor.cursorSize === 3.5 &&
+		editor.cursorSmoothing === 0.67 &&
+		editor.cursorSpringStiffnessMultiplier === 1.35 &&
+		editor.cursorSpringDampingMultiplier === 0.79 &&
+		editor.cursorSpringMassMultiplier === 1.29;
 	const normalizedMotionValues = {
 		zoomInDurationMs: normalizedZoomInDurationMs,
 		zoomOutDurationMs: normalizedZoomOutDurationMs,
@@ -856,7 +862,9 @@ export function normalizeProjectEditor(editor: Partial<ProjectEditorState>): Pro
 			? clamp(editor.cursorSize, 0.5, 10)
 			: DEFAULT_MOTION_PRESET.cursorSize,
 		cursorSmoothing: isFiniteNumber(editor.cursorSmoothing)
-			? clamp(editor.cursorSmoothing, 0, 2)
+			? usesLegacyDefaultCursorMotion
+				? DEFAULT_MOTION_PRESET.cursorSmoothing
+				: clamp(editor.cursorSmoothing, 0, 2)
 			: DEFAULT_MOTION_PRESET.cursorSmoothing,
 		cursorSpringStiffnessMultiplier: isFiniteNumber(editor.cursorSpringStiffnessMultiplier)
 			? clamp(editor.cursorSpringStiffnessMultiplier, 0.25, 3)

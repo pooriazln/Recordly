@@ -362,10 +362,22 @@ export async function startInteractionCapture(
 		}
 
 		const onMouseDown = (event: HookMouseEvent) => {
+			if (process.platform === "linux") {
+				const point = getHookCursorScreenPoint(event);
+				if (point) {
+					setLinuxCursorScreenPoint({ x: point.x, y: point.y, updatedAt: Date.now() });
+				}
+			}
 			recordCursorMouseDown(getHookMouseButton(event));
 		};
 
-		const onMouseUp = () => {
+		const onMouseUp = (event: HookMouseEvent) => {
+			if (process.platform === "linux") {
+				const point = getHookCursorScreenPoint(event);
+				if (point) {
+					setLinuxCursorScreenPoint({ x: point.x, y: point.y, updatedAt: Date.now() });
+				}
+			}
 			recordCursorMouseUp();
 		};
 

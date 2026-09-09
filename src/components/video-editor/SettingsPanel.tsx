@@ -31,8 +31,6 @@ import {
 } from "@/lib/wallpapers";
 import { type AspectRatio } from "@/utils/aspectRatioUtils";
 import { useI18n, useScopedT } from "../../contexts/I18nContext";
-import type { AppLocale } from "../../i18n/config";
-import { SUPPORTED_LOCALES } from "../../i18n/config";
 import { AnnotationSettingsPanel } from "./AnnotationSettingsPanel";
 import CaptionListPanel from "./CaptionListPanel";
 import type { CaptionRetimeSpan } from "./captionOps";
@@ -707,19 +705,6 @@ const CAPTION_LANGUAGE_OPTIONS = [
 	{ value: "ko", label: "Korean" },
 ] as const;
 
-const APP_LANGUAGE_LABELS: Record<AppLocale, string> = {
-	en: "English",
-	es: "Español",
-	fr: "Français",
-	de: "Deutsch",
-	it: "Italiano",
-	nl: "Nederlands",
-	ko: "한국어",
-	"pt-BR": "Português",
-	"zh-CN": "簡體中文",
-	"zh-TW": "繁體中文",
-};
-
 function loadPreviewImage(url: string) {
 	return new Promise<HTMLImageElement>((resolve, reject) => {
 		const image = new Image();
@@ -1098,7 +1083,7 @@ export function SettingsPanel({
 	onOpenNativeCaptureUnavailableModal,
 }: SettingsPanelProps) {
 	const tSettings = useScopedT("settings");
-	const { locale, setLocale, t } = useI18n();
+	const { t } = useI18n();
 	const { preference: themePreference, setPreference: setThemePreference } = useTheme();
 	const isBackgroundPanel = panelMode === "background";
 	const initialEditorPreferences = useMemo(() => loadEditorPreferences(), []);
@@ -2564,22 +2549,6 @@ export function SettingsPanel({
 							</button>
 						))}
 					</div>
-				</section>
-
-				<section className="flex flex-col gap-2">
-					<SectionLabel>{t("common.app.language", "Language")}</SectionLabel>
-					<Select value={locale} onValueChange={(value) => setLocale(value as AppLocale)}>
-						<SelectTrigger className="h-10 w-full rounded-xl border-foreground/10 bg-foreground/5 text-sm text-foreground hover:bg-foreground/10">
-							<SelectValue />
-						</SelectTrigger>
-						<SelectContent className="border-foreground/10 bg-editor-surface-alt text-foreground">
-							{SUPPORTED_LOCALES.map((candidateLocale) => (
-								<SelectItem key={candidateLocale} value={candidateLocale}>
-									{APP_LANGUAGE_LABELS[candidateLocale]}
-								</SelectItem>
-							))}
-						</SelectContent>
-					</Select>
 				</section>
 
 				<section className="flex flex-col gap-2">

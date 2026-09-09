@@ -325,7 +325,7 @@ describe("computeRegionStrength", () => {
 		expect(s).toBeLessThan(1);
 	});
 
-	it("finishes auto zoom-in at the interaction instead of after it", () => {
+	it("finishes auto zoom-in before the interaction to account for camera smoothing", () => {
 		const autoRegion: ZoomRegion = {
 			...region,
 			startMs: 4_500,
@@ -334,6 +334,7 @@ describe("computeRegionStrength", () => {
 		};
 
 		expect(computeRegionStrength(autoRegion, 4_500)).toBeGreaterThan(0);
+		expect(computeRegionStrength(autoRegion, 4_550)).toBe(1);
 		expect(computeRegionStrength(autoRegion, 5_000)).toBe(1);
 	});
 

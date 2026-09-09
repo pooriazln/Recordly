@@ -6,31 +6,16 @@ import {
 	FolderOpenIcon,
 	MoonIcon,
 	SunIcon,
-	TranslateIcon,
 	VideoCameraIcon,
 } from "@phosphor-icons/react";
 import type { ReactElement } from "react";
-import { useI18n, useScopedT } from "@/contexts/I18nContext";
+import { useScopedT } from "@/contexts/I18nContext";
 import { useTheme } from "@/contexts/ThemeContext";
-import type { AppLocale } from "@/i18n/config";
-import { SUPPORTED_LOCALES } from "@/i18n/config";
 import styles from "../LaunchWindow.module.css";
 import { useLaunchPopoverCoordinator } from "./LaunchPopoverCoordinator";
 import { DropdownItem, HudPopover } from "./PopoverScaffold";
 
 const POPOVER_ID = "more";
-
-const LOCALE_LABELS: Record<string, string> = {
-	en: "English",
-	es: "Español",
-	fr: "Français",
-	it: "Italiano",
-	nl: "Nederlands",
-	ko: "한국어",
-	"pt-BR": "Português",
-	"zh-CN": "簡體中文",
-	"zh-TW": "繁體中文",
-};
 
 export function MorePopover({
 	trigger,
@@ -56,7 +41,6 @@ export function MorePopover({
 	appVersion: string | null;
 }) {
 	const t = useScopedT("launch");
-	const { locale, setLocale } = useI18n();
 	const { preference, setPreference } = useTheme();
 	const { isOpen, requestOpen, requestClose } = useLaunchPopoverCoordinator();
 	const open = isOpen(POPOVER_ID);
@@ -74,7 +58,7 @@ export function MorePopover({
 			trigger={trigger}
 			align="end"
 		>
-			<div className={styles.ddLabel}>{t("recording.settings", "Settings")}</div>
+			<div className={styles.ddLabel}>{t("recording.more", "More")}</div>
 			{supportsHudCaptureProtection && (
 				<DropdownItem
 					icon={hideHudFromCapture ? <EyeSlashIcon size={16} /> : <EyeIcon size={16} />}
@@ -157,22 +141,6 @@ export function MorePopover({
 			>
 				{t("common.system", "System")}
 			</DropdownItem>
-			<div className={styles.ddLabel} style={{ marginTop: 4 }}>
-				{t("recording.language")}
-			</div>
-			{SUPPORTED_LOCALES.map((code) => (
-				<DropdownItem
-					key={code}
-					icon={<TranslateIcon size={16} />}
-					selected={locale === code}
-					onClick={() => {
-						setLocale(code as AppLocale);
-						requestClose(POPOVER_ID);
-					}}
-				>
-					{LOCALE_LABELS[code] ?? code}
-				</DropdownItem>
-			))}
 			{appVersion && (
 				<div
 					style={{

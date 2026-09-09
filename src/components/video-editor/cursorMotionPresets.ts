@@ -1,4 +1,8 @@
-import { DEFAULT_ZOOM_IN_DURATION_MS, DEFAULT_ZOOM_OUT_DURATION_MS } from "./types";
+import {
+	DEFAULT_CURSOR_SMOOTHING,
+	DEFAULT_ZOOM_IN_DURATION_MS,
+	DEFAULT_ZOOM_OUT_DURATION_MS,
+} from "./types";
 
 export type CursorMotionPresetId = "focused" | "smooth";
 
@@ -33,7 +37,7 @@ const SHARED_CURSOR_PRESET_VALUES = {
 	// Keep the pointer prominent in exported videos, even when the recording
 	// is viewed at a smaller size than the editor preview.
 	cursorSize: 3.5,
-	cursorSmoothing: 0.67,
+	cursorSmoothing: DEFAULT_CURSOR_SMOOTHING,
 	cursorSpringMassMultiplier: 1.29,
 	cursorClickBounce: 2,
 	cursorClickBounceDuration: 350,

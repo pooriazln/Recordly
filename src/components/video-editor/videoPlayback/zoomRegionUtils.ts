@@ -12,10 +12,11 @@ const CHAINED_ZOOM_PAN_GAP_MS = 1350;
 const CONNECTED_ZOOM_PAN_DURATION_MS = 1000;
 const ZOOM_IN_OVERLAP_MS = 1000;
 const ZOOM_ANIMATION_LEAD_MS = 200;
-// Auto-generated regions are centered on an interaction. Finish the zoom
-// before the click so the viewer sees the important action at full scale,
-// instead of watching the camera catch up after it happened.
-const AUTO_ZOOM_IN_LEAD_MS = -500;
+// Auto-generated regions are centered on an interaction. The rendered camera
+// uses a spring, which otherwise trails a mathematically on-time transition.
+// Finish the planned zoom 450ms before the interaction so the visible camera
+// is already settled when the click happens.
+const AUTO_ZOOM_IN_LEAD_MS = -950;
 
 type DominantRegionOptions = {
 	connectZooms?: boolean;

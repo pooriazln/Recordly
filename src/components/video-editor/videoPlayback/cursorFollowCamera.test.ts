@@ -124,4 +124,34 @@ describe("computeCursorFollowFocus", () => {
 
 		expect(initialFocus).toEqual({ cx: 0.3, cy: 0.7 });
 	});
+
+	it("holds the click focus while an auto zoom is entering", () => {
+		const state = createCursorFollowCameraState();
+		const cursorSamples = [
+			{ timeMs: 0, cx: 0.15, cy: 0.85, interactionType: "move" as const },
+			{ timeMs: 100, cx: 0.8, cy: 0.2, interactionType: "move" as const },
+		];
+
+		const entryFocus = computeCursorFollowFocus(
+			state,
+			cursorSamples,
+			0,
+			2,
+			0.2,
+			{ cx: 0.8, cy: 0.2 },
+			{ snapToEdgesRatio: 0.25 },
+		);
+		const midEntryFocus = computeCursorFollowFocus(
+			state,
+			cursorSamples,
+			100,
+			2,
+			0.8,
+			{ cx: 0.8, cy: 0.2 },
+			{ snapToEdgesRatio: 0.25 },
+		);
+
+		expect(entryFocus).toEqual({ cx: 0.75, cy: 0.25 });
+		expect(midEntryFocus).toEqual(entryFocus);
+	});
 });

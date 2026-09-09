@@ -155,7 +155,9 @@ export interface WebcamOverlaySettings {
 }
 
 export const DEFAULT_CURSOR_SIZE = 3.5;
-export const DEFAULT_CURSOR_SMOOTHING = 0.67;
+// Direct tracking keeps the replacement pointer visually attached to the
+// recorded pointer. Interpolation already smooths the 60Hz telemetry stream.
+export const DEFAULT_CURSOR_SMOOTHING = 0;
 export const DEFAULT_CURSOR_MOTION_BLUR = 0.6;
 export const DEFAULT_CURSOR_CLICK_BOUNCE = 2;
 export const DEFAULT_CURSOR_CLICK_BOUNCE_DURATION = 350;

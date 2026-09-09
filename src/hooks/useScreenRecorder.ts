@@ -206,8 +206,10 @@ export function resolveBrowserCaptureCursorPolicy({
 
 	return {
 		streamCursor: "never",
-		hideOsCursorBeforeRecording: true,
-		hideEditorOverlayCursorByDefault: true,
+		// Keep the physical pointer usable while recording. The capture stream
+		// excludes it and the editor draws one high-fidelity cursor from telemetry.
+		hideOsCursorBeforeRecording: false,
+		hideEditorOverlayCursorByDefault: false,
 	};
 }
 

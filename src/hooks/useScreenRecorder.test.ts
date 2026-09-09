@@ -141,11 +141,11 @@ describe("createBrowserRecordingOptions", () => {
 });
 
 describe("resolveBrowserCaptureCursorPolicy", () => {
-	it("preserves the existing hidden-cursor browser policy by default", () => {
+	it("uses one telemetry-driven cursor by default", () => {
 		expect(resolveBrowserCaptureCursorPolicy()).toEqual({
 			streamCursor: "never",
-			hideOsCursorBeforeRecording: true,
-			hideEditorOverlayCursorByDefault: true,
+			hideOsCursorBeforeRecording: false,
+			hideEditorOverlayCursorByDefault: false,
 		});
 	});
 
